@@ -16,6 +16,24 @@ const Categories = sequelize.define('Categories', {
     type: DataTypes.STRING,
     allowNull: true, 
   },
+  CreatedAt:{
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
+  CreatedBy: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'System',
+  },
+  DeletedAt: {
+    type: DataTypes.DATE,
+    allowNull: true, 
+  },
+  DeletedBy: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 }, {
   tableName: 'Categories', 
   timestamps: false, 

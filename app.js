@@ -3,7 +3,12 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const sequelize = require('./src/data/connection');
-const { Categories } = require('./src/data/models/categories/categories');
+
+
+const categoriesRoutes = require('./src/categories/categoriesRoutes');
+const productsRoutes = require('./src/products/productsRoutes');
+
+
 
 app.use(express.json());
 
@@ -15,23 +20,10 @@ app.get('/', (req, res) => {
   );
 });
 
-app.get('/categories', async (req, res) => {
-  try {
-    const categories = await Categories.findAll({
-      include: [
-        {
-          model: Categories,
-          as: 'Categories',
-          attributes: ['Id', 'Name', 'Description',],
-        },
-      ],
-    })
-    return res.json({ categories });
-  } catch (error) {
-    console.log('Error', error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-});
+app.use('/categories', categoriesRoutes);
+
+app.use('/products', productsRoutes);
+
 
 async function initializeDatabase() {
   try {

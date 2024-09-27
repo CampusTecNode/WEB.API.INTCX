@@ -36,6 +36,14 @@ const Products = sequelize.define('Products', {
     type: DataTypes.STRING,
     allowNull: true, 
   },
+  DeletedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  DeletedBy: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 }, {
   tableName: 'Products', 
   timestamps: false, 
