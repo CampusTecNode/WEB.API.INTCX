@@ -3,12 +3,8 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const sequelize = require('./src/data/connection');
-
-
 const categoriesRoutes = require('./src/categories/categoriesRoutes');
 const productsRoutes = require('./src/products/productsRoutes');
-
-
 
 app.use(express.json());
 
@@ -21,9 +17,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/categories', categoriesRoutes);
-
 app.use('/products', productsRoutes);
-
 
 async function initializeDatabase() {
   try {
