@@ -4,7 +4,8 @@ const { Categories } = require('../data/models/index');
 const Get = async (req, res) => {
   try {
     const categories = await Categories.findAll({
-      attributes: ['ID', 'Name', 'Description'],
+      attributes: ['ID', 'Name', 'Description', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
+      where: { DeletedAt: null },
     });
     return res.json(categories);
   } catch (error) {
@@ -16,7 +17,10 @@ const Get = async (req, res) => {
 const GetByID = async (req, res) => {
     try {
       const { id } = req.params;
-      const category = await Categories.findByPk(id);
+      const category = await Categories.findByPk(id, {
+        attributes: ['ID', 'Name', 'Description', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
+        where: { DeletedAt: null },
+      });
   
       if (!category) {
         return res.status(404).json({ message: 'Category not found' });

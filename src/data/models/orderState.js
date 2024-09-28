@@ -1,8 +1,8 @@
-// models/categories.js
+// models/OrderStatus.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../connection'); 
+const sequelize = require('../connection'); 
 
-const Categories = sequelize.define('Categories', {
+const OrderStatus = sequelize.define('OrderStatus', {
   ID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -12,16 +12,22 @@ const Categories = sequelize.define('Categories', {
     type: DataTypes.STRING,
     allowNull: false, 
   },
-  Description: {
-    type: DataTypes.STRING,
-    allowNull: true, 
-  },
   CreatedAt:{
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: DataTypes.NOW,
   },
   CreatedBy: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'System',
+  },
+  UpdatedAt:{
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
+  UpdatedBy: {
     type: DataTypes.STRING,
     allowNull: false,
     defaultValue: 'System',
@@ -35,8 +41,8 @@ const Categories = sequelize.define('Categories', {
     allowNull: true,
   },
 }, {
-  tableName: 'Categories', 
+  tableName: 'OrderStatus', 
   timestamps: false, 
 });
 
-module.exports = Categories;
+module.exports = OrderStatus;
