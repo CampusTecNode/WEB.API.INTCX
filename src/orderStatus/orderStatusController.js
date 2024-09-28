@@ -1,12 +1,12 @@
-const { PaymentMethod } = require('../data/models/index');
+const { OrderStatus } = require('../data/models/index');
 
 const Get = async (req, res) => {
     try {
-        const PaymentMethos = await PaymentMethod.findAll({
-            attibutes: ['ID', 'Name', 'Description', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
+        const orderStatus = await OrderStatus.findAll({
+            attibutes: ['ID', 'Name', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
             where: { DeletedAt: null },
         });
-        return res.json(PaymentMethos);
+        return res.json(orderStatus);
     } catch (error) {
         console.error('Error fetching payment methods:', error);
         return res.status(500).json({ message: 'Internal server error' });

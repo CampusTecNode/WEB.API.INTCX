@@ -3,7 +3,7 @@ const sequelize = require('../connection');
 const Products = require('./product');
 const Categories = require('./category');
 const Orders = require('./order');
-const OrderStates = require('./orderState');
+const OrderStatus = require('./orderState');
 const PaymentMethods = require('./paymentMethod');
 
 
@@ -17,6 +17,6 @@ module.exports = {
   Products,
   Categories,
   Orders,
-  OrderStates,
+  OrderStatus,
   PaymentMethods
 };
