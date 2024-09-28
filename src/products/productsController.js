@@ -4,7 +4,8 @@
   const Get = async (req, res) => {
     try {
       const products = await Products.findAll({
-        attributes: ['ID', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 'DeletedAt', 'DeletedBy'],
+      attributes: ['ID', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
+      where: { DeletedAt: null },
       });
       return res.json(products);
     } catch (error) {
@@ -17,7 +18,8 @@
     try {
       const { id } = req.params;
       const product = await Products.findByPk(id, {
-        attributes: ['ID', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL'],
+        attributes: ['ID', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
+        where: { DeletedAt: null },
       });
 
       if (!product) {
