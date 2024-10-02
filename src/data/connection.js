@@ -1,14 +1,11 @@
 const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
-const database = "INTEConnect";
-const username = "postgres";
-const password = "Davidelias08";
-const host = "localhost";
 class Connection {
     constructor() {
         if (!this.instance) {
-            this._sequelize =  new Sequelize(database, username, password, {
-                host: host,
+            this._sequelize =  new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.PASSWORD, {
+                host: process.env.DB_HOST,
                 dialect: 'postgres'
             });
             Connection.instance = this;

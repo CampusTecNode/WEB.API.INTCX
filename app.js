@@ -1,14 +1,19 @@
 // imports
 const express = require('express');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Routes
 const categoriesRoutes = require('./src/categories/categoriesRoutes');
 const productsRoutes = require('./src/products/productsRoutes');
 const paymentMethodsRoutes = require('./src/paymentMethods/paymentMethodsRoutes');
 const authRoutes = require('./src/routes/auth');
-const { verifyToken, verifyRole } = require('./src/auth/authMiddleware');
+// TODO: Use verifyRole middleware
+const { verifyToken } = require('./src/auth/authMiddleware');
 
 
 app.use(express.json());
