@@ -7,6 +7,8 @@ const port = 3000;
 const categoriesRoutes = require('./src/categories/categoriesRoutes');
 const productsRoutes = require('./src/products/productsRoutes');
 const paymentMethodsRoutes = require('./src/paymentMethods/paymentMethodsRoutes');
+const authRoutes = require('./src/routes/auth');
+const { verifyToken, verifyRole } = require('./src/auth/authMiddleware');
 
 
 app.use(express.json());
@@ -19,9 +21,11 @@ app.get('/', (req, res) => {
   );
 });
 
-app.use('/categories', categoriesRoutes);
-app.use('/products', productsRoutes);
-app.use('/paymentMethods', paymentMethodsRoutes)
+app.use('/auth', authRoutes);
+
+app.use('/categories', verifyToken, categoriesRoutes);
+app.use('/products', verifyToken, productsRoutes);
+app.use('/paymentMethods', verifyToken, paymentMethodsRoutes)
 
 // Configure Database
 const sequelize = require('./src/data/connection');

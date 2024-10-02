@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../connection');
-const { type } = require('express/lib/response');
-const timespan = require('jsonwebtoken/lib/timespan');
+const sequelize = require('../connection');
+
 
 const Orders = sequelize.define('Orders', {
     ID:{
@@ -46,29 +45,29 @@ const Orders = sequelize.define('Orders', {
         allowNull: false,
         defaultValue: DataTypes.NOW,
       },
-      CreatedBy: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: 'System',
-      },
-      UpdatedAt:{
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW,
-      },
-      UpdatedBy: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: 'System',
-      },
-      DeletedAt: {
-        type: DataTypes.DATE,
-        allowNull: true, 
-      },
-      DeletedBy: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
+    CreatedBy: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'System',
+    },
+    UpdatedAt:{
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    UpdatedBy: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'System',
+    },
+    DeletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true, 
+    },
+    DeletedBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
 },{
     tableName:'Orders',
     timespan: false,
