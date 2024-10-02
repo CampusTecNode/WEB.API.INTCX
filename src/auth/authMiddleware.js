@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
-const UserRoles = require('../data/models/userRoles');
-const Roles = require('../data/models/roles');
+const {Roles, UserRoles } = require('../data/models/index');
 
 // Middleware para verificar el token JWT (Autenticación)
 const verifyToken = (req, res, next) => {
