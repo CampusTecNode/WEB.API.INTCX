@@ -22,6 +22,8 @@ describe('Auth Controller', () => {
       .post('/auth/login')
       .send({ username: 'admin', password: '$2a$10$EjXJuDdXG9NHKMvlQAv8WeHTDlG9nOPJDLcXnroKpE/nINk2NifTa' });
 
+    console.log(response.body);
+
     expect(response.statusCode).toBe(200);
     expect(response.body.token).toBeDefined(); // Verifica que se haya devuelto un token
   });
