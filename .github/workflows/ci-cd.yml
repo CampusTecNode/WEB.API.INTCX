@@ -43,7 +43,7 @@ jobs:
           # Recoger el reporte de las pruebas
       - name: Test Report
         if: always() # Ejecuta este paso aunque las pruebas fallen
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: test-report
           path: ./test-reports/junit.xml # Ruta al archivo generado por jest-junit
