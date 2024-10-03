@@ -15,7 +15,11 @@ jobs:
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}  
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
-
+      JWT_EXPIRATION: 6h
+      DB_PORT: 5432
+      NODE_ENV: production
+      PORT: 3000
+      
     steps:
       # 1. Checkout del código
       - name: Checkout code
@@ -41,8 +45,12 @@ jobs:
     if: github.ref == 'refs/heads/main' && success()
 
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}   # Asegúrate de pasar las variables aquí también
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}  
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_EXPIRATION: 6h
+      DB_PORT: 5432
+      NODE_ENV: production
+      PORT: 3000
 
     steps:
       # 1. Checkout del código
