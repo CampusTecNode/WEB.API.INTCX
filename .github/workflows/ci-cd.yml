@@ -48,5 +48,5 @@ jobs:
         with:
           name: Jest Tests
           path: "./test-reports/junit.xml"
-          reporter: junit-xml
+          reporter: jest-junit
           fail-on-error: true
