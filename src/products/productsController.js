@@ -1,5 +1,20 @@
-  const { Products } = require('../data/models/index');
-
+  const swagger = require('../../swagger');
+const { Products } = require('../data/models/index');
+/**
+* @swagger
+* /products:
+*   get:
+*     summary: Retorna una lista de productos
+*     responses:
+*       200:
+*         description: Una lista de productos
+*         content:
+*           application/json:
+*             schema:
+*               type: array
+*               items:
+*                 $ref: '#/components/schemas/Product'
+*/
 
   const Get = async (req, res) => {
     try {

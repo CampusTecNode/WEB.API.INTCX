@@ -1,12 +1,15 @@
 // imports
 const express = require('express');
 const dotenv = require('dotenv');
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json'); // 
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
 const app = express();
+
 
 // Routes
 const categoriesRoutes = require('./src/categories/categoriesRoutes');
@@ -18,6 +21,8 @@ const { verifyToken } = require('./src/auth/authMiddleware');
 
 
 app.use(express.json());
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.get('/', (req, res) => {    
   res.json(
