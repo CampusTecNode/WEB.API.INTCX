@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const {Roles, UserRoles } = require('../data/models/index');
-require('dotenv').config();
-
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 // Middleware para verificar el token JWT (Autenticación)
 const verifyToken = (req, res, next) => {
   const token = req.headers['authorization'];
