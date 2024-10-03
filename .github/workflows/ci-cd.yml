@@ -17,7 +17,7 @@ jobs:
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
       JWT_EXPIRATION: '6h'
       DB_PORT: 5432
-      NODE_ENV: production
+      NODE_ENV: development
       PORT: 3000
       
     steps:
