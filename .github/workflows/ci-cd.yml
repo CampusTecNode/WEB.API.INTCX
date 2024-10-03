@@ -41,9 +41,12 @@ jobs:
           npm test
 
           # Recoger el reporte de las pruebas
+        # Recoger el reporte de las pruebas con dorny/test-reporter
       - name: Test Report
-        if: always() # Ejecuta este paso aunque las pruebas fallen
-        uses: actions/upload-artifact@v3
+        uses: dorny/test-reporter@v1
+        if: always()
         with:
-          name: test-report
-          path: ./test-reports/junit.xml # Ruta al archivo generado por jest-junit
+          name: Jest Tests
+          path: "./test-reports/junit.xml"
+          reporter: junit
+          fail-on-error: true
