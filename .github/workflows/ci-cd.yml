@@ -12,6 +12,10 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}  
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
     steps:
       # 1. Checkout del código
       - name: Checkout code
