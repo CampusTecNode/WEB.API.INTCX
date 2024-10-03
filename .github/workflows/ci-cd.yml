@@ -40,6 +40,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && success()
 
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}   # Asegúrate de pasar las variables aquí también
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
     steps:
       # 1. Checkout del código
       - name: Checkout code
