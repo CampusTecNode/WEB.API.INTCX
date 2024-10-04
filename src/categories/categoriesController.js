@@ -1,12 +1,20 @@
-const { Categories } = require('../data/models/index');
+const { Categories, Products } = require('../data/models/index');
 
 
 const Get = async (req, res) => {
   try {
     const categories = await Categories.findAll({
       attributes: ['ID', 'Name', 'Description', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
+      include: [
+        {
+          model: Products,
+          as: 'Products',
+          attributes: ['ID', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
+        }
+      ],
       where: { DeletedAt: null },
     });
+
     return res.json(categories);
   } catch (error) {
     console.error('Error fetching categories:', error);

@@ -12,8 +12,8 @@ const UserRoles = require('./userRole');
 
 require('../middlewares/updateMiddleware')(sequelize);
 
-Categories.hasMany(Products, { foreignKey: 'CategoryID' });
-Products.belongsTo(Categories, { foreignKey: 'CategoryID' });
+Categories.hasMany(Products, { foreignKey: 'CategoryID', as: 'Products' });
+Products.belongsTo(Categories, { foreignKey: 'CategoryID', as: 'Category' });
 
 Users.belongsToMany(Roles, { through: UserRoles, foreignKey: 'userId' });
 Roles.belongsToMany(Users, { through: UserRoles, foreignKey: 'roleId' });
