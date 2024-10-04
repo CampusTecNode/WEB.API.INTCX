@@ -1,6 +1,5 @@
 const { Orders } = require('../data/models/index');
 
-
 const Get = async (req, res) => {
   try {
     const orders = await Orders.findAll({

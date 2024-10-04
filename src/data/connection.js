@@ -13,9 +13,10 @@ class Connection {
                         require: true,
                         rejectUnauthorized: false,
                 },
-            }
+            },
+            logging: process.env.NODE_ENV === 'development' ? console.log : false,
         });
-            Connection.instance = this;
+        Connection.instance = this;
         }
         return Connection.instance;
     }
