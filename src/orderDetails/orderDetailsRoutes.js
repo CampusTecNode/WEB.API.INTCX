@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const orderDetailController = require('../controllers/OrderDetailController');
+const orderDetailController = require('./orderDetailsController');
 const { verifyToken } = require('../auth/authMiddleware');
 
 // Definir las rutas
