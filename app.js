@@ -9,7 +9,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 const app = express();
 
-
 // Routes
 const categoriesRoutes = require('./src/categories/categoriesRoutes');
 const productsRoutes = require('./src/products/productsRoutes');
@@ -18,6 +17,7 @@ const ordersRoutes = require('./src/orders/orderRoutes');
 const orderDetailsRoutes = require('./src/orderDetails/orderDetailsRoutes');
 const orderStatusRoutes = require('./src/orderStatus/orderStatusRoutes');
 const authRoutes = require('./src/auth/authRoutes');
+const likesRoutes = require('./src/likes/likesRoutes');
 // TODO: Use verifyRole middleware
 const { verifyToken } = require('./src/auth/authMiddleware');
 
@@ -41,6 +41,6 @@ app.use('/paymentMethods', verifyToken, paymentMethodsRoutes);
 app.use('/orders', verifyToken, ordersRoutes);
 app.use('/orderDetails', verifyToken, orderDetailsRoutes);
 app.use('/orderStatus', verifyToken, orderStatusRoutes);
-
+app.use('/likes', verifyToken, likesRoutes);
 
 module.exports = app;

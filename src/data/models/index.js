@@ -8,7 +8,7 @@ const PaymentMethods = require('./paymentMethod');
 const Users = require('./user');
 const Roles = require('./role');
 const UserRoles = require('./userRole');
-
+const UserLikedProducts = require('./UserLikedProducts');
 
 require('../middlewares/updateMiddleware')(sequelize);
 
@@ -17,6 +17,16 @@ Products.belongsTo(Categories, { foreignKey: 'CategoryID', as: 'Category' });
 
 Users.belongsToMany(Roles, { through: UserRoles, foreignKey: 'userId' });
 Roles.belongsToMany(Users, { through: UserRoles, foreignKey: 'roleId' });
+
+Users.belongsToMany(Products, {
+    through: UserLikedProducts,
+    foreignKey: 'UserID', 
+});
+
+Products.belongsToMany(Users, { 
+  through: UserLikedProducts, 
+  foreignKey: 'ProductID', 
+});
 
 module.exports = {
   sequelize,
@@ -28,4 +38,5 @@ module.exports = {
   Users,
   Roles,
   UserRoles,
+  UserLikedProducts
 };

@@ -1,42 +1,22 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-
-const Orders = sequelize.define('Orders', {
-    ID:{
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    },
+const UserLikedProducts = sequelize.define('UserLikedProducts', {
     UserID:{
         type: DataTypes.INTEGER,
+        primaryKey: true,
         allowNull: false,
         references:{
             model: 'Users',
             key: 'ID',
-        } 
-    },
-    Date:{
-        type: DataTypes.DATE,
-        allowNull: false,
-    },
-    Total:{
-        type: DataTypes.DECIMAL(10,2),
-        allowNull: false,
-    },
-    StateID:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'OrderStatus',
-            key: 'ID',
         }
     },
-    PaymentMethodID:{
+    ProductID:{
         type: DataTypes.INTEGER,
+        primaryKey: true,
         allowNull: false,
-        references: {
-            model: 'PaymentMethods',
+        references:{
+            model: 'Products',
             key: 'ID',
         }
     },
@@ -67,10 +47,10 @@ const Orders = sequelize.define('Orders', {
     DeletedBy: {
       type: DataTypes.STRING,
       allowNull: true,
-    },
+    },    
 },{
-    tableName:'Orders',
-    timespan: false,
+    tableName: 'UserLikedProducts',
+    timestamps: false,
 });
 
-module.exports = Orders;
+module.exports = UserLikedProducts;
