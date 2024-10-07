@@ -11,6 +11,7 @@ const OrderStatus = sequelize.define('OrderStatus', {
   Name: {
     type: DataTypes.STRING,
     allowNull: false, 
+    unique: true,
   },
   CreatedAt:{
     type: DataTypes.DATE,
