@@ -9,14 +9,24 @@ const Users = require('./user');
 const Roles = require('./role');
 const UserRoles = require('./userRole');
 const UserLikedProducts = require('./UserLikedProducts');
+const CartStatus = require('../../cartStatus/cartStatus');
+const ShoppingCart = require('../../shoppingCart/shoppingCart');
+const CartDetails = require('../../cartDetails/cartDetail');
 
 require('../middlewares/updateMiddleware')(sequelize);
+
+Users.belongsToMany(Roles, { through: UserRoles, foreignKey: 'userId' });
+Roles.belongsToMany(Users, { through: UserRoles, foreignKey: 'roleId' });
 
 Categories.hasMany(Products, { foreignKey: 'CategoryID', as: 'Products' });
 Products.belongsTo(Categories, { foreignKey: 'CategoryID', as: 'Category' });
 
-Users.belongsToMany(Roles, { through: UserRoles, foreignKey: 'userId' });
-Roles.belongsToMany(Users, { through: UserRoles, foreignKey: 'roleId' });
+ShoppingCart.hasMany(CartDetails, { foreignKey: 'CartID' });
+CartDetails.belongsTo(ShoppingCart, { foreignKey: 'CartID' });
+
+Products.hasMany(CartDetails, { foreignKey: 'ProductID' });
+CartDetails.belongsTo(Products, { foreignKey: 'ProductID' });
+
 
 Users.belongsToMany(Products, {
     through: UserLikedProducts,
@@ -38,5 +48,8 @@ module.exports = {
   Users,
   Roles,
   UserRoles,
-  UserLikedProducts
+  UserLikedProducts,
+  CartStatus,
+  ShoppingCart,
+  CartDetails,
 };

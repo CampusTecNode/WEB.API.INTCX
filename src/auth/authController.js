@@ -50,7 +50,7 @@ const loginUser = async (req, res) => {
       { expiresIn: process.env.JWT_EXPIRATION }
     );
 
-    res.json({ token });
+    res.json({ token: token, userID: user.id });
   } catch (error) {
     res.status(500).json({ message: 'Error logging in', error: error.message });
   }
