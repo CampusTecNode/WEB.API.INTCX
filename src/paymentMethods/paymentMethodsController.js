@@ -1,6 +1,10 @@
 const { PaymentMethod } = require('../data/models/index');
 
 const Get = async (req, res) => {
+     /*  
+    #swagger.tags = ['PaymentMethods']  
+    #swagger.description = 'Retrieve all payment methods that are available and active (not deleted)'  
+    */
     try {
         const PaymentMethos = await PaymentMethod.findAll({
             attibutes: ['ID', 'Name', 'Description', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
@@ -14,6 +18,10 @@ const Get = async (req, res) => {
 };
 
 const GetByID = async (req, res) => {
+    /*  
+    #swagger.tags = ['PaymentMethods']  
+    #swagger.description = 'Retrieve a specific payment method by its ID'  
+    */
     try {
         const paymentMethod = await PaymentRequest.findByPK(id, {
             attibutes: ['ID', 'Name', 'Description', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
@@ -33,6 +41,10 @@ const GetByID = async (req, res) => {
 
 
 const Create = async (req, res) => {
+    /*  
+    #swagger.tags = ['PaymentMethods']  
+    #swagger.description = 'Create a new payment method'  
+    */
     try {
         const { Name } = req.body;
         const newPaymentMethod = PaymentMethod.Create({Name});
@@ -44,6 +56,10 @@ const Create = async (req, res) => {
 };
 
 const Update = async (req, res) => {
+     /*  
+    #swagger.tags = ['PaymentMethods']  
+    #swagger.description = 'Update an existing payment method by its ID'  
+    */
     try {
         const { id } = req.param;
         const { Name } = req.body;
@@ -64,6 +80,11 @@ const Update = async (req, res) => {
 };
 
 const Delete = async (req, res) => {
+        /*  
+    #swagger.tags = ['PaymentMethods']  
+    #swagger.description = 'Soft delete a payment method by its ID (marks it as deleted but does not remove it from the database)'  
+    */
+
     try {
       const { id } = req.params;
       const { deletedBy } = req.body; // El usuario que realiza el borrado

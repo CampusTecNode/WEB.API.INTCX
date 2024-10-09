@@ -1,6 +1,10 @@
 const { CartStatus } = require('./cartStatus');
 
 const Get = async (req, res) => {
+    /*  
+#swagger.tags = ['CartStatus']  
+#swagger.description = 'Retrieve all cart statuses that are currently active (not deleted)'  
+*/
     try {
         const cartStatus = await CartStatus.findAll({
             attibutes: ['ID', 'Name', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
@@ -14,6 +18,10 @@ const Get = async (req, res) => {
 };
 
 const GetByID = async (req, res) => {
+    /*  
+#swagger.tags = ['CartStatus']  
+#swagger.description = 'Retrieve a specific cart status by its ID'  
+*/
     try {
         const { id } = req.params;
 
@@ -35,6 +43,10 @@ const GetByID = async (req, res) => {
 
 
 const Create = async (req, res) => {
+    /*  
+#swagger.tags = ['CartStatus']  
+#swagger.description = 'Create a new cart status'  
+*/
     try {
         const { Name } = req.body;
         const newCartStatus = CartStatus.Create({Name});
@@ -46,6 +58,10 @@ const Create = async (req, res) => {
 };
 
 const Update = async (req, res) => {
+    /*  
+#swagger.tags = ['CartStatus']  
+#swagger.description = 'Update an existing cart status by its ID'  
+*/
     try {
         const { id } = req.param;
         const { Name } = req.body;
@@ -67,6 +83,10 @@ const Update = async (req, res) => {
 };
 
 const Delete = async (req, res) => {
+    /*  
+#swagger.tags = ['CartStatus']  
+#swagger.description = 'Soft delete a cart status by marking it as deleted but keeping it in the database'  
+*/
     try {
       const { id } = req.params;
       const { deletedBy } = req.body; // El usuario que realiza el borrado

@@ -1,6 +1,10 @@
 const { UserLikedProducts, Products, Users } = require('../data/models/index');
 
 const likeProduct = async (req, res) => {
+    /*  
+#swagger.tags = ['UserLikedProducts']  
+#swagger.description = 'Mark a product as liked by the user'  
+*/
     try {
         const { UserID, ProductID } = req.body;
 
@@ -30,6 +34,10 @@ const likeProduct = async (req, res) => {
 };
 
 const unlikeProduct = async (req, res) => {
+    /*  
+#swagger.tags = ['UserLikedProducts']  
+#swagger.description = 'Remove the like from a product for the user (soft delete)'  
+*/
     try {
         const { UserID, ProductID } = req.body;
 
@@ -54,6 +62,10 @@ const unlikeProduct = async (req, res) => {
 };
 
 const getLikedProducts = async (req, res) => {
+    /*  
+#swagger.tags = ['UserLikedProducts']  
+#swagger.description = 'Retrieve all products liked by a specific user'  
+*/
     try {
       const { userID } = req.params;
   

@@ -1,6 +1,11 @@
 const { OrderStatus } = require('../data/models/index');
 
 const Get = async (req, res) => {
+    /*  
+#swagger.tags = ['OrderStatus']  
+#swagger.description = 'Retrieve all order statuses that are currently active (not deleted)'  
+*/
+
     try {
         const orderStatus = await OrderStatus.findAll({
             attibutes: ['ID', 'Name', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
@@ -14,6 +19,11 @@ const Get = async (req, res) => {
 };
 
 const GetByID = async (req, res) => {
+    /*  
+#swagger.tags = ['OrderStatus']  
+#swagger.description = 'Retrieve a specific order status by its ID'  
+*/
+
     try {
         const orderStatus = await OrderStatus.findByPK(id, {
             attibutes: ['ID', 'Name', 'CreatedAt', 'reatedBy', 'UpdatedAt', 'UpdatedBy'],
@@ -33,6 +43,11 @@ const GetByID = async (req, res) => {
 
 
 const Create = async (req, res) => {
+    /*  
+#swagger.tags = ['OrderStatus']  
+#swagger.description = 'Create a new order status'  
+*/
+
     try {
         const { Name } = req.body;
         const newOrderStatus = OrderStatus.Create({Name});
@@ -44,6 +59,11 @@ const Create = async (req, res) => {
 };
 
 const Update = async (req, res) => {
+    /*  
+#swagger.tags = ['OrderStatus']  
+#swagger.description = 'Update an existing order status by its ID'  
+*/
+
     try {
         const { id } = req.param;
         const { Name } = req.body;
@@ -64,6 +84,11 @@ const Update = async (req, res) => {
 };
 
 const Delete = async (req, res) => {
+    /*  
+#swagger.tags = ['OrderStatus']  
+#swagger.description = 'Soft delete an order status by marking it as deleted without removing it from the database'  
+*/
+
     try {
       const { id } = req.params;
       const { deletedBy } = req.body; // El usuario que realiza el borrado

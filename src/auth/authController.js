@@ -6,6 +6,8 @@ if (process.env.NODE_ENV !== 'production') {
 const {Users, Roles, UserRoles } = require('../data/models/index');
 
 const registerUser = async (req, res) => {
+   /* 	#swagger.tags = ['Auth']
+        #swagger.description = 'Endpoint to sign up a specific user' */
   try {
     const { username, email, password, role } = req.body;
 
@@ -32,6 +34,8 @@ const registerUser = async (req, res) => {
 
 
 const loginUser = async (req, res) => {
+  /* 	#swagger.tags = ['Auth']
+        #swagger.description = 'Endpoint to sign in a specific user' */
   try {
     const { username, password } = req.body;
 

@@ -36,6 +36,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
+
+
 app.use('/categories', verifyToken, categoriesRoutes);
 app.use('/products', verifyToken, productsRoutes);
 app.use('/paymentMethods', verifyToken, paymentMethodsRoutes);

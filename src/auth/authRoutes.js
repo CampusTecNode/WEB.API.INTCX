@@ -2,12 +2,6 @@ const express = require('express');
 const router = express.Router();
 const authController = require('./authController');
 
-/**
- * @swagger
- * tags:
- *   name: Auth
- *   description: Endpoints related to authentication and authorization
- */
 
 
 /**

@@ -1,6 +1,8 @@
 const { Products, UserLikedProducts } = require('../data/models/index');
 
   const Get = async (req, res) => {
+    /* 	#swagger.tags = ['Products']
+        #swagger.description = 'Get Products' */
     try {
 
       const { userID } = req.query;
@@ -34,6 +36,8 @@ const { Products, UserLikedProducts } = require('../data/models/index');
   };
 
   const GetByID = async (req, res) => {
+    /* 	#swagger.tags = ['Products']
+        #swagger.description = 'Get Products by id' */
     try {
       const { id } = req.params;
       const product = await Products.findByPk(id, {
@@ -53,6 +57,8 @@ const { Products, UserLikedProducts } = require('../data/models/index');
   };
 
   const Create = async (req, res) => {
+    /* 	#swagger.tags = ['Products']
+        #swagger.description = 'Create Product' */
     try {
       const { Name, Description, Price, Stock, CategoryID, ImageURL } = req.body;
       const newProduct = await Products.create({ Name, Description, Price, Stock, CategoryID, ImageURL });
@@ -64,6 +70,8 @@ const { Products, UserLikedProducts } = require('../data/models/index');
   };
 
   const Update = async (req, res) => {
+    /* 	#swagger.tags = ['Products']
+        #swagger.description = 'Update Products' */
     try {
       const { id } = req.params;
       const { Name, Description, Price, Stock, CategoryID, ImageURL } = req.body;
@@ -89,6 +97,8 @@ const { Products, UserLikedProducts } = require('../data/models/index');
   };
 
   const Delete = async (req, res) => {
+    /* 	#swagger.tags = ['Products']
+        #swagger.description = 'Delete Product' */
     try {
       const { id } = req.params;
       const { deletedBy } = req.body;

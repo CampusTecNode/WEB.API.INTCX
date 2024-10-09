@@ -19,10 +19,48 @@
     {
       "name": "Auth",
       "description": "Authentication and Authorization endpoints"
+    },
+    {
+      "name": "PaymentMethods",
+      "description": "Endpoints related to payment methods"
+    },
+    {
+      "name": "CartStatus",
+      "description": "Endpoints related to cart statuses"
+    },
+    {
+      "name": "UserLikedProducts",
+      "description": "Endpoints related to managing products liked by users"
+    },
+    {
+      "name": "Orders",
+      "description": "Endpoints related to order management"
+    },
+    {
+      "name": "OrderStatus",
+      "description": "Endpoints related to order statuses"
+    },
+    {
+      "name": "ShoppingCart",
+      "description": "Endpoints related to shopping cart management"
     }
   ],
   "schemes": [
     "http"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-API-KEY",
+      "description": "any description..."
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
   ],
   "paths": {
     "/": {
@@ -37,7 +75,10 @@
     },
     "/auth/register": {
       "post": {
-        "description": "",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to sign up a specific user",
         "parameters": [
           {
             "name": "body",
@@ -76,7 +117,10 @@
     },
     "/auth/login": {
       "post": {
-        "description": "",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to sign in a specific user",
         "parameters": [
           {
             "name": "body",
@@ -109,7 +153,10 @@
     },
     "/categories/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Categories"
+        ],
+        "description": "Get All Categories",
         "parameters": [
           {
             "name": "userID",
@@ -136,7 +183,10 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Categories"
+        ],
+        "description": "Create one new Category",
         "parameters": [
           {
             "name": "body",
@@ -172,7 +222,10 @@
     },
     "/categories/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Categories"
+        ],
+        "description": "Get All Categories by id",
         "parameters": [
           {
             "name": "id",
@@ -200,7 +253,10 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "Categories"
+        ],
+        "description": "Update one Category",
         "parameters": [
           {
             "name": "id",
@@ -243,7 +299,10 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Categories"
+        ],
+        "description": "Delete Category",
         "parameters": [
           {
             "name": "id",
@@ -285,7 +344,10 @@
     },
     "/products/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Products"
+        ],
+        "description": "Get Products",
         "parameters": [
           {
             "name": "userID",
@@ -312,7 +374,10 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Products"
+        ],
+        "description": "Create Product",
         "parameters": [
           {
             "name": "body",
@@ -360,7 +425,10 @@
     },
     "/products/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Products"
+        ],
+        "description": "Get Products by id",
         "parameters": [
           {
             "name": "id",
@@ -388,7 +456,10 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "Products"
+        ],
+        "description": "Update Products",
         "parameters": [
           {
             "name": "id",
@@ -443,7 +514,10 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Products"
+        ],
+        "description": "Delete Product",
         "parameters": [
           {
             "name": "id",
@@ -485,7 +559,10 @@
     },
     "/paymentMethods/": {
       "get": {
-        "description": "",
+        "tags": [
+          "PaymentMethods"
+        ],
+        "description": "Retrieve all payment methods that are available and active (not deleted)",
         "responses": {
           "200": {
             "description": "OK"
@@ -502,7 +579,10 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "PaymentMethods"
+        ],
+        "description": "Create a new payment method",
         "parameters": [
           {
             "name": "body",
@@ -535,7 +615,10 @@
     },
     "/paymentMethods/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "PaymentMethods"
+        ],
+        "description": "Retrieve a specific payment method by its ID",
         "parameters": [
           {
             "name": "id",
@@ -563,7 +646,10 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "PaymentMethods"
+        ],
+        "description": "Update an existing payment method by its ID",
         "parameters": [
           {
             "name": "id",
@@ -603,7 +689,10 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "PaymentMethods"
+        ],
+        "description": "Soft delete a payment method by its ID (marks it as deleted but does not remove it from the database)",
         "parameters": [
           {
             "name": "id",
@@ -645,7 +734,10 @@
     },
     "/orders/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Orders"
+        ],
+        "description": "Retrieve a list of all orders with their details, including products, order state, and payment method",
         "responses": {
           "200": {
             "description": "OK"
@@ -662,7 +754,10 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Orders"
+        ],
+        "description": "Create an order from an existing shopping cart, moving cart details to order details and marking the cart as processed",
         "parameters": [
           {
             "name": "body",
@@ -701,7 +796,10 @@
     },
     "/orders/user/{userID}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Orders"
+        ],
+        "description": "Retrieve all orders made by a specific user, including product details, order state, and payment method",
         "parameters": [
           {
             "name": "userID",
@@ -731,7 +829,10 @@
     },
     "/orders/{id}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Orders"
+        ],
+        "description": "Soft delete an order by marking it as deleted without removing it from the database",
         "parameters": [
           {
             "name": "id",
@@ -773,7 +874,10 @@
     },
     "/orderStatus/": {
       "get": {
-        "description": "",
+        "tags": [
+          "OrderStatus"
+        ],
+        "description": "Retrieve all order statuses that are currently active (not deleted)",
         "responses": {
           "200": {
             "description": "OK"
@@ -790,7 +894,10 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "OrderStatus"
+        ],
+        "description": "Create a new order status",
         "parameters": [
           {
             "name": "body",
@@ -823,7 +930,10 @@
     },
     "/orderStatus/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "OrderStatus"
+        ],
+        "description": "Retrieve a specific order status by its ID",
         "parameters": [
           {
             "name": "id",
@@ -851,7 +961,10 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "OrderStatus"
+        ],
+        "description": "Update an existing order status by its ID",
         "parameters": [
           {
             "name": "id",
@@ -891,7 +1004,10 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "OrderStatus"
+        ],
+        "description": "Soft delete an order status by marking it as deleted without removing it from the database",
         "parameters": [
           {
             "name": "id",
@@ -933,7 +1049,10 @@
     },
     "/likes/like": {
       "post": {
-        "description": "",
+        "tags": [
+          "UserLikedProducts"
+        ],
+        "description": "Mark a product as liked by the user",
         "parameters": [
           {
             "name": "authorization",
@@ -977,7 +1096,10 @@
     },
     "/likes/unlike": {
       "post": {
-        "description": "",
+        "tags": [
+          "UserLikedProducts"
+        ],
+        "description": "Remove the like from a product for the user (soft delete)",
         "parameters": [
           {
             "name": "authorization",
@@ -1021,7 +1143,10 @@
     },
     "/likes/{userID}/liked-products": {
       "get": {
-        "description": "",
+        "tags": [
+          "UserLikedProducts"
+        ],
+        "description": "Retrieve all products liked by a specific user",
         "parameters": [
           {
             "name": "userID",
@@ -1056,7 +1181,10 @@
     },
     "/cartStatus/": {
       "get": {
-        "description": "",
+        "tags": [
+          "CartStatus"
+        ],
+        "description": "Retrieve all cart statuses that are currently active (not deleted)",
         "responses": {
           "200": {
             "description": "OK"
@@ -1073,7 +1201,10 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "CartStatus"
+        ],
+        "description": "Create a new cart status",
         "parameters": [
           {
             "name": "body",
@@ -1106,7 +1237,10 @@
     },
     "/cartStatus/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "CartStatus"
+        ],
+        "description": "Retrieve a specific cart status by its ID",
         "parameters": [
           {
             "name": "id",
@@ -1134,7 +1268,10 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "CartStatus"
+        ],
+        "description": "Update an existing cart status by its ID",
         "parameters": [
           {
             "name": "id",
@@ -1174,7 +1311,10 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "CartStatus"
+        ],
+        "description": "Soft delete a cart status by marking it as deleted but keeping it in the database",
         "parameters": [
           {
             "name": "id",
@@ -1216,7 +1356,10 @@
     },
     "/shoppingCart/": {
       "post": {
-        "description": "",
+        "tags": [
+          "ShoppingCart"
+        ],
+        "description": "Add a product to the user\\'s active shopping cart, or create a new cart if none exists",
         "parameters": [
           {
             "name": "authorization",
@@ -1266,7 +1409,10 @@
     },
     "/shoppingCart/user/{userID}": {
       "get": {
-        "description": "",
+        "tags": [
+          "ShoppingCart"
+        ],
+        "description": "Retrieve the active shopping cart for a specific user, including product details and cart status",
         "parameters": [
           {
             "name": "userID",
@@ -1301,7 +1447,10 @@
     },
     "/shoppingCart/{id}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "ShoppingCart"
+        ],
+        "description": "Remove a product from the shopping cart, and mark the cart as inactive if it becomes empty",
         "parameters": [
           {
             "name": "id",

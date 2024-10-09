@@ -3,6 +3,11 @@ const { Users, CartStatus, Products, CartDetails } = require('../data/models/ind
 
 // Crear un carrito (si no existe) y agregar productos al carrito
 const AddToCart = async (req, res) => {
+  /*  
+#swagger.tags = ['ShoppingCart']  
+#swagger.description = 'Add a product to the user\'s active shopping cart, or create a new cart if none exists'  
+*/
+
   try {
     const { UserID, ProductID, Quantity } = req.body;
 
@@ -59,6 +64,11 @@ const AddToCart = async (req, res) => {
 };
 
 const GetByUser = async (req, res) => {
+  /*  
+#swagger.tags = ['ShoppingCart']  
+#swagger.description = 'Retrieve the active shopping cart for a specific user, including product details and cart status'  
+*/
+
   try {
     const { userID } = req.params;
 
@@ -95,6 +105,11 @@ const GetByUser = async (req, res) => {
 };
 
 const DeleteCartItem = async (req, res) => {
+  /*  
+#swagger.tags = ['ShoppingCart']  
+#swagger.description = 'Remove a product from the shopping cart, and mark the cart as inactive if it becomes empty'  
+*/
+
   try {
     const { CartID, ProductID } = req.body;
 

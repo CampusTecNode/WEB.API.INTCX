@@ -1,7 +1,8 @@
 const { Categories, Products, UserLikedProducts } = require('../data/models/index');
 
-
 const Get = async (req, res) => {
+  /* 	#swagger.tags = ['Categories']
+        #swagger.description = 'Get All Categories' */
   try {
     // id del usuario para devolver los likes
     const { userID } = req.query;
@@ -49,6 +50,8 @@ const Get = async (req, res) => {
 };
 
 const GetByID = async (req, res) => {
+  /* 	#swagger.tags = ['Categories']
+        #swagger.description = 'Get All Categories by id' */
     try {
       const { id } = req.params;
       const category = await Categories.findByPk(id, {
@@ -68,6 +71,8 @@ const GetByID = async (req, res) => {
   };
 
 const Create = async (req, res) => {
+  /* 	#swagger.tags = ['Categories']
+        #swagger.description = 'Create one new Category' */
   try {
     const { Name, Description } = req.body;
     const newCategory = await Categories.create({ Name, Description });
@@ -79,6 +84,8 @@ const Create = async (req, res) => {
 };
 
 const Update = async (req, res) => {
+  /* 	#swagger.tags = ['Categories']
+        #swagger.description = 'Update one Category' */
     try {
       const { id } = req.params;
       const { Name, Description } = req.body;
@@ -100,6 +107,8 @@ const Update = async (req, res) => {
   };
 
   const Delete = async (req, res) => {
+    /* 	#swagger.tags = ['Categories']
+        #swagger.description = 'Delete Category' */
     try {
       const { id } = req.params;
       const { deletedBy } = req.body; // El usuario que realiza el borrado

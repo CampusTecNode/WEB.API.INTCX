@@ -2,6 +2,10 @@ const { Orders, ShoppingCart, CartDetails, OrderDetails, Products, PaymentMethod
 
 
 const CreateOrderFromCart = async (req, res) => {
+  /*  
+#swagger.tags = ['Orders']  
+#swagger.description = 'Create an order from an existing shopping cart, moving cart details to order details and marking the cart as processed'  
+*/
   const { cartID, userID } = req.body;
 
   try {
@@ -47,6 +51,10 @@ const CreateOrderFromCart = async (req, res) => {
 };
 
 const Get = async (req, res) => {
+  /*  
+#swagger.tags = ['Orders']  
+#swagger.description = 'Retrieve a list of all orders with their details, including products, order state, and payment method'  
+*/
   try {
     const orders = await Orders.findAll({
         attributes: ['ID', 'UserID', 'Date', 'Name', 'Total', 'StateID', 'PaymentMethodID', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
@@ -68,6 +76,10 @@ const Get = async (req, res) => {
 };
 
 const GetOrdersByUser = async (req, res) => {
+  /*  
+#swagger.tags = ['Orders']  
+#swagger.description = 'Retrieve all orders made by a specific user, including product details, order state, and payment method'  
+*/
   const { userID } = req.params;  // El userID se pasará como parámetro
 
   try {
@@ -97,6 +109,10 @@ const GetOrdersByUser = async (req, res) => {
 };
 
 const Delete = async (req, res) => {
+  /*  
+#swagger.tags = ['Orders']  
+#swagger.description = 'Soft delete an order by marking it as deleted without removing it from the database'  
+*/
   try {
     const { id } = req.params;
     const { deletedBy } = req.body;
