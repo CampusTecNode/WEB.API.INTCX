@@ -1,10 +1,10 @@
 const { ShoppingCart } = require('./shoppingCart');
-const { Users, CartStatus } = require('../data/models');
+const { Users, CartStatus, Products, CartDetails } = require('../data/models/index');
 
-// Crear un nuevo carrito de compras
-const Create = async (req, res) => {
+// Crear un carrito (si no existe) y agregar productos al carrito
+const AddToCart = async (req, res) => {
   try {
-    const { UserID, CartStateID } = req.body;
+    const { UserID, ProductID, Quantity } = req.body;
 
     // Verificar si el usuario existe
     const user = await Users.findByPk(UserID);
@@ -12,91 +12,135 @@ const Create = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Crear el carrito
-    const newCart = await ShoppingCart.create({
-      UserID,
-      CartStateID,
+    // Verificar si el producto existe
+    const product = await Products.findByPk(ProductID);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    // Intentar encontrar un carrito activo del usuario
+    let shoppingCart = await ShoppingCart.findOne({
+      where: { UserID, CartStateID: 1 } // Estado activo
     });
 
-    return res.status(201).json(newCart);
+    if (!shoppingCart) {
+      // Si no existe un carrito activo, crear uno nuevo
+      shoppingCart = await ShoppingCart.create({
+        UserID,
+        CartStateID: 1, // Estado activo
+      });
+    }
+
+    // Intentar encontrar el detalle del carrito para el producto
+    let cartDetail = await CartDetails.findOne({
+      where: { CartID: shoppingCart.ID, ProductID, DeletedAt: null }
+    });
+
+    if (cartDetail) {
+      // Si el detalle del carrito ya existe, actualizar la cantidad
+      cartDetail.Quantity = Quantity;
+      cartDetail.UpdatedAt = new Date();
+      await cartDetail.save();
+      return res.status(200).json({ message: 'Cart detail updated successfully', cartDetail });
+    } else {
+      // Si no existe, crear un nuevo detalle en el carrito
+      const newCartDetail = await CartDetails.create({
+        CartID: shoppingCart.ID,
+        ProductID,
+        Quantity,
+        UnitPrice: product.Price,  // Precio del producto actual
+      });
+      return res.status(201).json({ message: 'Product added to cart successfully', newCartDetail });
+    }
   } catch (error) {
-    console.error('Error creating shopping cart:', error);
+    console.error('Error adding to cart:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
 
-// Obtener todos los carritos de un usuario
 const GetByUser = async (req, res) => {
   try {
     const { userID } = req.params;
 
-    // Buscar los carritos del usuario
-    const carts = await ShoppingCart.findAll({
-      where: { UserID: userID },
+    // Buscar el carrito activo del usuario
+    const cart = await ShoppingCart.findOne({
+      where: { UserID: userID, CartStateID: 1, DeletedAt: null },  // 1 = Estado activo
       include: [
-        { model: CartStatus, attributes: ['ID', 'Name'] },  // Incluir el estado del carrito
+        {
+          model: CartDetails,
+          attributes: ['ID', 'Quantity', 'UnitPrice'],
+          include: [
+            {
+              model: Products,
+              attributes: ['ID', 'Name', 'Description', 'Price', 'ImageURL'],
+            },
+          ],
+        },
+        {
+          model: CartStatus,
+          attributes: ['ID', 'Name'],  // Incluir el estado del carrito
+        },
       ],
     });
 
-    if (!carts.length) {
-      return res.status(404).json({ message: 'No carts found for this user' });
+    if (!cart) {
+      return res.status(404).json({ message: 'No active cart found for this user' });
     }
 
-    return res.status(200).json(carts);
+    return res.status(200).json(cart);
   } catch (error) {
-    console.error('Error fetching shopping carts:', error);
+    console.error('Error fetching active shopping cart:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
 
-// Actualizar el estado de un carrito
-const Update = async (req, res) => {
+const DeleteCartItem = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { CartStateID } = req.body;
+    const { CartID, ProductID } = req.body;
 
-    // Buscar el carrito
-    const cart = await ShoppingCart.findByPk(id);
+    // Verificar si el carrito existe y está activo
+    const cart = await ShoppingCart.findOne({
+      where: { ID: CartID, CartStateID: 1 } // Estado activo
+    });
+
     if (!cart) {
-      return res.status(404).json({ message: 'Cart not found' });
+      return res.status(404).json({ message: 'Shopping cart not found or is not active' });
     }
 
-    // Actualizar el estado del carrito
-    cart.CartStateID = CartStateID;
-    await cart.save();
+    // Verificar si el producto existe en el carrito
+    const cartDetail = await CartDetails.findOne({
+      where: { CartID: cart.ID, ProductID, DeletedAt: null }
+    });
 
-    return res.json({ message: 'Cart status updated successfully', cart });
-  } catch (error) {
-    console.error('Error updating cart status:', error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-};
-
-// Borrado lógico del carrito
-const Delete = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    // Buscar el carrito
-    const cart = await ShoppingCart.findByPk(id);
-    if (!cart) {
-      return res.status(404).json({ message: 'Cart not found' });
+    if (!cartDetail) {
+      return res.status(404).json({ message: 'Product not found in the cart' });
     }
 
-    // Borrado lógico (marcarlo como eliminado)
-    cart.DeletedAt = new Date();
-    await cart.save();
+    // Borrado lógico del producto
+    cartDetail.DeletedAt = new Date();
+    await cartDetail.save();
 
-    return res.json({ message: 'Cart deleted successfully (soft delete)' });
+    // Verificar si es el último producto en el carrito
+    const remainingCartDetails = await CartDetails.findAll({
+      where: { CartID: cart.ID, DeletedAt: null }
+    });
+
+    if (remainingCartDetails.length === 0) {
+      // Si no quedan más productos, marcamos el carrito como inactivo
+      cart.CartStateID = 2;  // 2 = Estado inactivo
+      await cart.save();
+      return res.status(200).json({ message: 'Product removed and cart marked as inactive', cart });
+    }
+
+    return res.status(200).json({ message: 'Product removed from cart', cartDetail });
   } catch (error) {
-    console.error('Error deleting cart:', error);
+    console.error('Error deleting product from cart:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
 
 module.exports = {
-  Create,
+  AddToCart,
   GetByUser,
-  Update,
-  Delete,
+  DeleteCartItem,
 };

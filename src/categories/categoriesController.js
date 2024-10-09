@@ -1,8 +1,11 @@
-const { Categories, Products } = require('../data/models/index');
+const { Categories, Products, UserLikedProducts } = require('../data/models/index');
 
 
 const Get = async (req, res) => {
   try {
+    // id del usuario para devolver los likes
+    const { userID } = req.query;
+
     const categories = await Categories.findAll({
       attributes: ['ID', 'Name', 'Description', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
       include: [
@@ -15,7 +18,30 @@ const Get = async (req, res) => {
       where: { DeletedAt: null },
     });
 
-    return res.json(categories);
+    if (!categories.length) {
+      return res.status(404).json({ message: 'No categories found' });
+    }
+
+    const likedProducts = await UserLikedProducts.findAll({
+      where: { UserID: userID },
+      attributes: ['ProductID'],
+    });
+
+    const likedProductsIDs = likedProducts.map(product => product.ProductID);
+    
+    const categoriesWithLikes = categories.map(category => {
+      const modifiedProducts = category.Products.map(product => ({
+        ...product.toJSON(),
+        IsLiked: likedProductsIDs.includes(product.ID),
+      }));
+      return {
+        ...category.toJSON(),
+        Products: modifiedProducts,
+      };
+    });
+
+
+    return res.status(200).json(categoriesWithLikes);
   } catch (error) {
     console.error('Error fetching categories:', error);
     return res.status(500).json({ message: 'Internal server error' });

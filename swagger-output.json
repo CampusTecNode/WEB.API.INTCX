@@ -96,6 +96,13 @@
     "/categories/": {
       "get": {
         "description": "",
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -105,6 +112,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1462,7 +1472,10 @@
                 "UserID": {
                   "example": "any"
                 },
-                "CartStateID": {
+                "ProductID": {
+                  "example": "any"
+                },
+                "Quantity": {
                   "example": "any"
                 }
               }
@@ -1470,6 +1483,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
           "201": {
             "description": "Created"
           },
@@ -1524,7 +1540,7 @@
       }
     },
     "/shoppingCart/{id}": {
-      "put": {
+      "delete": {
         "description": "",
         "parameters": [
           {
@@ -1544,44 +1560,14 @@
             "schema": {
               "type": "object",
               "properties": {
-                "CartStateID": {
+                "CartID": {
+                  "example": "any"
+                },
+                "ProductID": {
                   "example": "any"
                 }
               }
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {

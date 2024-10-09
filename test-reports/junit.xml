@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="6" failures="0" errors="0" time="3.338">
-  <testsuite name="Auth Controller" errors="0" failures="0" skipped="0" timestamp="2024-10-03T01:48:01" time="2.223" tests="2">
-    <testcase classname="Auth Controller should return a token for valid credentials" name="Auth Controller should return a token for valid credentials" time="0.176">
+<testsuites name="jest tests" tests="5" failures="0" errors="0" time="3.397">
+  <testsuite name="Category Controller" errors="0" failures="0" skipped="0" timestamp="2024-10-09T02:51:46" time="2.233" tests="1">
+    <testcase classname="Category Controller should create a new category" name="Category Controller should create a new category" time="0.085">
+    </testcase>
+  </testsuite>
+  <testsuite name="Auth Controller" errors="0" failures="0" skipped="0" timestamp="2024-10-09T02:51:46" time="2.261" tests="2">
+    <testcase classname="Auth Controller should return a token for valid credentials" name="Auth Controller should return a token for valid credentials" time="0.135">
     </testcase>
     <testcase classname="Auth Controller should return 401 for invalid credentials" name="Auth Controller should return 401 for invalid credentials" time="0.04">
     </testcase>
   </testsuite>
-  <testsuite name="Product Controller" errors="0" failures="0" skipped="0" timestamp="2024-10-03T01:48:01" time="2.244" tests="2">
-    <testcase classname="Product Controller should return a list of products" name="Product Controller should return a list of products" time="0.101">
+  <testsuite name="Product Controller" errors="0" failures="0" skipped="0" timestamp="2024-10-09T02:51:46" time="2.295" tests="2">
+    <testcase classname="Product Controller should return a list of products" name="Product Controller should return a list of products" time="0.093">
     </testcase>
     <testcase classname="Product Controller should create a new product" name="Product Controller should create a new product" time="0.011">
-    </testcase>
-  </testsuite>
-  <testsuite name="Category Controller" errors="0" failures="0" skipped="0" timestamp="2024-10-03T01:48:01" time="2.252" tests="2">
-    <testcase classname="Category Controller should return a list of categories" name="Category Controller should return a list of categories" time="0.057">
-    </testcase>
-    <testcase classname="Category Controller should create a new category" name="Category Controller should create a new category" time="0.01">
     </testcase>
   </testsuite>
 </testsuites>
