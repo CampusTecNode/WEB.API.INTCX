@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../../app'); // Importa la aplicación
-const {Categories, Users, UserLikedProducts} = require('../../src/data/models/index'); // Mock del modelo de productos
+const {Categories, Users } = require('../../src/data/models/index'); // Mock del modelo de productos
 
 jest.mock('../../src/data/models/index'); // Mock del modelo de usuarios
 
@@ -20,7 +20,6 @@ beforeAll(async () => {
     .send({ username: 'admin', password: '$2a$10$EjXJuDdXG9NHKMvlQAv8WeHTDlG9nOPJDLcXnroKpE/nINk2NifTa' });
 
   token = loginResponse.body.token; 
-  console.log(token);
 });
 
 afterAll(async () => {
