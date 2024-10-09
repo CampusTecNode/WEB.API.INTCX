@@ -1,28 +1,32 @@
-  const swagger = require('../../swagger');
-const { Products } = require('../data/models/index');
-/**
-* @swagger
-* /products:
-*   get:
-*     summary: Retorna una lista de productos
-*     responses:
-*       200:
-*         description: Una lista de productos
-*         content:
-*           application/json:
-*             schema:
-*               type: array
-*               items:
-*                 $ref: '#/components/schemas/Product'
-*/
+const { Products, UserLikedProducts } = require('../data/models/index');
 
   const Get = async (req, res) => {
     try {
+
+      const { userID } = req.query;
+
       const products = await Products.findAll({
       attributes: ['ID', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
       where: { DeletedAt: null },
       });
-      return res.json(products);
+
+      if (!products.length) {
+        return res.status(404).json({ message: 'No products found' });
+      }
+
+      const likedProducts = await UserLikedProducts.findAll({
+        where: { UserID: userID },
+        attributes: ['ProductID'],
+      });
+  
+      const likedProductsIDs = likedProducts.map(product => product.ProductID);
+      
+      const productsWithLikes = products.map(product => ({
+          ...product.toJSON(),
+          IsLiked: likedProductsIDs.includes(product.ID),
+        }));
+
+      return res.status(200).json(productsWithLikes);
     } catch (error) {
       console.error('Error fetching products:', error);
       return res.status(500).json({ message: 'Internal server error' });
