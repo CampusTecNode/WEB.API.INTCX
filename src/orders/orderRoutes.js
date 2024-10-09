@@ -4,11 +4,9 @@ const ordersController = require('./ordersController');
 
 router.get('/', ordersController.Get);
 
-router.post('/', ordersController.Create);
+router.get('/user/:userID', ordersController.GetOrdersByUser);
 
-router.get('/:id', ordersController.GetByID);
-
-router.put('/:id', ordersController.Update);
+router.post('/', ordersController.CreateOrderFromCart);
 
 router.delete('/:id', ordersController.Delete);
 

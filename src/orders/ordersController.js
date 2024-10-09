@@ -1,10 +1,64 @@
-const { Orders } = require('../data/models/index');
+const { Orders, ShoppingCart, CartDetails, OrderDetails, Products, PaymentMethods  } = require('../data/models/index');
+
+
+const CreateOrderFromCart = async (req, res) => {
+  const { cartID, userID } = req.body;
+
+  try {
+    // Obtener carrito y sus detalles
+    const cart = await ShoppingCart.findByPk(cartID, {
+      include: [{ model: CartDetails }],
+    });
+
+    if (!cart) {
+      return res.status(404).json({ message: 'Cart not found' });
+    }
+
+    // Crear la orden
+    const newOrder = await Orders.create({
+      UserID: userID,
+      Total: cart.Total,
+      Date: new Date(),
+      StateID: 1, // Estado inicial de la orden
+      PaymentMethodID: cart.PaymentMethodID,
+      CartID: cartID,
+    });
+
+    // Copiar los detalles del carrito a la tabla OrderDetails
+    const orderDetails = cart.CartDetails.map(detail => ({
+      OrderID: newOrder.ID,
+      ProductID: detail.ProductID,
+      Count: detail.Count,
+      UnitPrice: detail.UnitPrice,
+    }));
+
+    await OrderDetails.bulkCreate(orderDetails);
+
+    // Cambiar el estado del carrito a "Procesado"
+    const processedState = await CartStates.findOne({ where: { Name: 'Procesado' } });
+    cart.CartStateID = processedState.ID;
+    await cart.save();
+
+    return res.status(201).json(newOrder);
+  } catch (error) {
+    console.error('Error creating order:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
 
 const Get = async (req, res) => {
   try {
     const orders = await Orders.findAll({
         attributes: ['ID', 'UserID', 'Date', 'Name', 'Total', 'StateID', 'PaymentMethodID', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
         where: { DeletedAt: null },
+        include: [
+          { 
+            model: OrderDetails, 
+            include: [{ model: Products, attributes: ['Name', 'Description', 'Price', 'ImageURL'] }] 
+          },
+          { model: OrderStates, attributes: ['ID', 'Name'] },  // Incluir el estado de la orden
+          { model: PaymentMethods, attributes: ['ID', 'Name'] }  // Incluir el método de pago
+        ],
     });
     return res.json(orders);
   } catch (error) {
@@ -13,57 +67,31 @@ const Get = async (req, res) => {
   }
 };
 
-const GetByID = async (req, res) => {
+const GetOrdersByUser = async (req, res) => {
+  const { userID } = req.params;  // El userID se pasará como parámetro
+
   try {
-    const { id } = req.params;
-    const order = await Orders.findByPk(id, {
-        attributes: ['ID', 'UserID', 'Date', 'Total', 'StateID', 'PaymentMethodID', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
-        where: { DeletedAt: null },
+    // Buscar todas las órdenes del usuario
+    const orders = await Orders.findAll({
+      where: { UserID: userID },
+      include: [
+        { 
+          model: OrderDetails, 
+          include: [{ model: Products, attributes: ['Name', 'Description', 'Price', 'ImageURL'] }] 
+        },
+        { model: OrderStates, attributes: ['ID', 'Name'] },  // Incluir el estado de la orden
+        { model: PaymentMethods, attributes: ['ID', 'Name'] }  // Incluir el método de pago
+      ],
+      attributes: ['ID', 'Date', 'Total', 'CreatedAt', 'UpdatedAt']
     });
 
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+    if (!orders.length) {
+      return res.status(404).json({ message: 'No orders found for this user' });
     }
 
-    return res.json(order);
+    return res.status(200).json(orders);
   } catch (error) {
-    console.error('Error fetching order by ID:', error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-};
-
-const Create = async (req, res) => {
-  try {
-    const { UserID, Date, Total, StateID, PaymentMethodID } = req.body;
-    const newOrder = await Orders.create({ UserID, Date, Name, Total, StateID, PaymentMethodID });
-    return res.status(201).json(newOrder);
-  } catch (error) {
-    console.error('Error creating order:', error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-};
-
-const Update = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { UserID, Date, Name, Total, StateID, PaymentMethodID } = req.body;
-
-    const order = await Orders.findByPk(id);
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
-    }
-
-    order.UserID = UserID || order.UserID;
-    order.Date = Description || order.Description;
-    order.Price = Price || order.Price;
-    order.Stock = Stock || order.Stock;
-    order.CategoryID = CategoryID || order.CategoryID;
-    order.ImageURL = ImageURL || order.ImageURL;
-    await order.save();
-
-    return res.json(order);
-  } catch (error) {
-    console.error('Error updating product:', error);
+    console.error('Error fetching orders by user:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -85,14 +113,13 @@ const Delete = async (req, res) => {
     return res.json({ message: 'Order deleted (soft delete)' });
   } catch (error) {
     console.error('Error deleting order:', error);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: 'Internal server errr' });
   }
 };
 
 module.exports = {
+    CreateOrderFromCart,
+    GetOrdersByUser,
     Get,
-    GetByID,
-    Create,
-    Update,
     Delete
 };
