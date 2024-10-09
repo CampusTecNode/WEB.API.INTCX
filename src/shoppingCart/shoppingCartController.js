@@ -82,7 +82,11 @@ const GetByUser = async (req, res) => {
           include: [
             {
               model: Products,
-              attributes: ['ID', 'Name', 'Description', 'Price', 'ImageURL'],
+              attributes: [
+                'ID', 'SKU', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 
+                'Color', 'Brand', 'Weight', 'Size', 'ExpiryDate', 'CreatedAt', 
+                'CreatedBy', 'UpdatedAt', 'UpdatedBy'
+              ],
             },
           ],
         },

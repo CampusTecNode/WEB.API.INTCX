@@ -8,6 +8,11 @@ const Products = sequelize.define('Products', {
     primaryKey: true,
     autoIncrement: true,
   },
+  SKU: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
   Name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -31,6 +36,26 @@ const Products = sequelize.define('Products', {
       model: 'Categories', 
       key: 'ID', 
     }
+  },
+  Color: {
+    type: DataTypes.STRING,
+    allowNull: true, 
+  },
+  Brand: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  Weight: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: true,
+  },
+  Size: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  ExpirityDate: {
+    type: DataTypes.DATE,
+    allowNull: true,
   },
   ImageURL: {
     type: DataTypes.STRING,

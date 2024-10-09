@@ -8,7 +8,11 @@ const { Products, UserLikedProducts } = require('../data/models/index');
       const { userID } = req.query;
 
       const products = await Products.findAll({
-      attributes: ['ID', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
+      attributes: [
+        'ID', 'SKU', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 
+        'Color', 'Brand', 'Weight', 'Size', 'ExpiryDate', 'CreatedAt', 
+        'CreatedBy', 'UpdatedAt', 'UpdatedBy'
+      ],
       where: { DeletedAt: null },
       });
 
@@ -41,7 +45,11 @@ const { Products, UserLikedProducts } = require('../data/models/index');
     try {
       const { id } = req.params;
       const product = await Products.findByPk(id, {
-        attributes: ['ID', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
+        attributes: [
+          'ID', 'SKU', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 
+          'Color', 'Brand', 'Weight', 'Size', 'ExpiryDate', 'CreatedAt', 
+          'CreatedBy', 'UpdatedAt', 'UpdatedBy'
+        ],
         where: { DeletedAt: null },
       });
 
@@ -60,8 +68,11 @@ const { Products, UserLikedProducts } = require('../data/models/index');
     /* 	#swagger.tags = ['Products']
         #swagger.description = 'Create Product' */
     try {
-      const { Name, Description, Price, Stock, CategoryID, ImageURL } = req.body;
-      const newProduct = await Products.create({ Name, Description, Price, Stock, CategoryID, ImageURL });
+      const { Name, Description, Price, Stock, CategoryID, ImageURL, Color, Brand, Weight, Size, SKU, ExpiryDate } = req.body;
+      const newProduct = await Products.create({ 
+        SKU, Name, Description, Price, Stock, CategoryID, ImageURL, 
+        Color, Brand, Weight, Size, ExpiryDate 
+      });
       return res.status(201).json(newProduct);
     } catch (error) {
       console.error('Error creating product:', error);
@@ -74,7 +85,7 @@ const { Products, UserLikedProducts } = require('../data/models/index');
         #swagger.description = 'Update Products' */
     try {
       const { id } = req.params;
-      const { Name, Description, Price, Stock, CategoryID, ImageURL } = req.body;
+      const { Name, Description, Price, Stock, CategoryID, ImageURL, Color, Brand, Weight, Size, SKU, ExpiryDate } = req.body;
 
       const product = await Products.findByPk(id);
       if (!product) {
@@ -87,6 +98,12 @@ const { Products, UserLikedProducts } = require('../data/models/index');
       product.Stock = Stock || product.Stock;
       product.CategoryID = CategoryID || product.CategoryID;
       product.ImageURL = ImageURL || product.ImageURL;
+      product.Color = Color || product.Color;
+      product.Brand = Brand || product.Brand;
+      product.Weight = Weight || product.Weight;
+      product.Size = Size || product.Size;
+      product.SKU = SKU || product.SKU;
+      product.ExpiryDate = ExpiryDate || product.ExpiryDate;
       await product.save();
 
       return res.json(product);

@@ -13,7 +13,11 @@ const Get = async (req, res) => {
         {
           model: Products,
           as: 'Products',
-          attributes: ['ID', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
+          attributes: [
+            'ID', 'SKU', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 
+            'Color', 'Brand', 'Weight', 'Size', 'ExpiryDate', 'CreatedAt', 
+            'CreatedBy', 'UpdatedAt', 'UpdatedBy'
+          ],
         }
       ],
       where: { DeletedAt: null },

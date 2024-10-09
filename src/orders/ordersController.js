@@ -62,7 +62,7 @@ const Get = async (req, res) => {
         include: [
           { 
             model: OrderDetails, 
-            include: [{ model: Products, attributes: ['Name', 'Description', 'Price', 'ImageURL'] }] 
+            include: [{ model: Products, attributes: ['SKU','Name', 'Description', 'Price', 'ImageURL'] }] 
           },
           { model: OrderStates, attributes: ['ID', 'Name'] },  // Incluir el estado de la orden
           { model: PaymentMethods, attributes: ['ID', 'Name'] }  // Incluir el método de pago
@@ -89,7 +89,7 @@ const GetOrdersByUser = async (req, res) => {
       include: [
         { 
           model: OrderDetails, 
-          include: [{ model: Products, attributes: ['Name', 'Description', 'Price', 'ImageURL'] }] 
+          include: [{ model: Products, attributes: ['SKU', 'Name', 'Description', 'Price', 'ImageURL'] }] 
         },
         { model: OrderStates, attributes: ['ID', 'Name'] },  // Incluir el estado de la orden
         { model: PaymentMethods, attributes: ['ID', 'Name'] }  // Incluir el método de pago

@@ -76,7 +76,11 @@ const getLikedProducts = async (req, res) => {
             model: UserLikedProducts,
             where: { DeletedAt: null },  // Solo obtener los que no han sido eliminados lógicamente
           },
-          attributes: ['ID', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL'],
+          attributes: [
+            'ID', 'SKU', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 
+            'Color', 'Brand', 'Weight', 'Size', 'ExpiryDate', 'CreatedAt', 
+            'CreatedBy', 'UpdatedAt', 'UpdatedBy'
+          ],
         }],
       });
   
