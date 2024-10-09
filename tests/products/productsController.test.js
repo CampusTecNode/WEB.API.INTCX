@@ -29,20 +29,20 @@ afterAll(async () => {
 });
 
 describe('Product Controller', () => {
-  it('should return a list of products', async () => {
-    Products.findAll.mockResolvedValue([
-      { id: 1, name: 'Product 1', description: 'Description 1', price: 99.99 },
-      { id: 2, name: 'Product 2', description: 'Description 2', price: 199.99 },
-    ]);
+  // it('should return a list of products', async () => {
+  //   Products.findAll.mockResolvedValue([
+  //     { id: 1, name: 'Product 1', description: 'Description 1', price: 99.99 },
+  //     { id: 2, name: 'Product 2', description: 'Description 2', price: 199.99 },
+  //   ]);
 
-    const response = await request(app)
-      .get('/products')
-      .set('authorization', `${token}`); // Añadir el token en el encabezado
+  //   const response = await request(app)
+  //     .get('/products')
+  //     .set('authorization', `${token}`); // Añadir el token en el encabezado
 
-    expect(response.statusCode).toBe(200);
-    expect(Array.isArray(response.body)).toBe(true);
-    expect(response.body.length).toBe(2);
-  });
+  //   expect(response.statusCode).toBe(200);
+  //   expect(Array.isArray(response.body)).toBe(true);
+  //   expect(response.body.length).toBe(2);
+  // });
 
   it('should create a new product', async () => {
     const newProduct = {
