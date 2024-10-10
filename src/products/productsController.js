@@ -44,7 +44,7 @@ const { Products, UserLikedProducts } = require('../data/models/index');
         #swagger.description = 'Get Products by id' */
     try {
       const { id } = req.params;
-      const { userID } = req.body;
+      const { userID } = req.query;
       const product = await Products.findByPk(id, {
         attributes: [
           'ID', 'SKU', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 
