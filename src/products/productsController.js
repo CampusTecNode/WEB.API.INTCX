@@ -10,7 +10,7 @@ const { Products, UserLikedProducts } = require('../data/models/index');
       const products = await Products.findAll({
       attributes: [
         'ID', 'SKU', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 
-        'Color', 'Brand', 'Weight', 'Size', 'ExpiryDate', 'CreatedAt', 
+        'Color', 'Brand', 'Weight', 'Size', 'ExpirityDate', 'CreatedAt', 
         'CreatedBy', 'UpdatedAt', 'UpdatedBy'
       ],
       where: { DeletedAt: null },
@@ -47,7 +47,7 @@ const { Products, UserLikedProducts } = require('../data/models/index');
       const product = await Products.findByPk(id, {
         attributes: [
           'ID', 'SKU', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 
-          'Color', 'Brand', 'Weight', 'Size', 'ExpiryDate', 'CreatedAt', 
+          'Color', 'Brand', 'Weight', 'Size', 'ExpirityDate', 'CreatedAt', 
           'CreatedBy', 'UpdatedAt', 'UpdatedBy'
         ],
         where: { DeletedAt: null },

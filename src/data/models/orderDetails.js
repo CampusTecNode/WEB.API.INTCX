@@ -54,7 +54,8 @@ const OrderDetails = sequelize.define('OrderDetails', {
     type: DataTypes.STRING,
   },
 }, {
-  paranoid: true,  
+  tableName: 'OrderDetails',
+  timestamps: false,
 });
 
 module.exports = OrderDetails;

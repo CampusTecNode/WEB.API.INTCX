@@ -402,6 +402,24 @@
                 },
                 "ImageURL": {
                   "example": "any"
+                },
+                "Color": {
+                  "example": "any"
+                },
+                "Brand": {
+                  "example": "any"
+                },
+                "Weight": {
+                  "example": "any"
+                },
+                "Size": {
+                  "example": "any"
+                },
+                "SKU": {
+                  "example": "any"
+                },
+                "ExpiryDate": {
+                  "example": "any"
                 }
               }
             }
@@ -489,6 +507,24 @@
                   "example": "any"
                 },
                 "ImageURL": {
+                  "example": "any"
+                },
+                "Color": {
+                  "example": "any"
+                },
+                "Brand": {
+                  "example": "any"
+                },
+                "Weight": {
+                  "example": "any"
+                },
+                "Size": {
+                  "example": "any"
+                },
+                "SKU": {
+                  "example": "any"
+                },
+                "ExpiryDate": {
                   "example": "any"
                 }
               }

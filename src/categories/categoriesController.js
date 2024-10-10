@@ -15,7 +15,7 @@ const Get = async (req, res) => {
           as: 'Products',
           attributes: [
             'ID', 'SKU', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 
-            'Color', 'Brand', 'Weight', 'Size', 'ExpiryDate', 'CreatedAt', 
+            'Color', 'Brand', 'Weight', 'Size', 'ExpirityDate', 'CreatedAt', 
             'CreatedBy', 'UpdatedAt', 'UpdatedBy'
           ],
         }

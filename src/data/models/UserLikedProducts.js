@@ -8,7 +8,7 @@ const UserLikedProducts = sequelize.define('UserLikedProducts', {
         allowNull: false,
         references:{
             model: 'Users',
-            key: 'ID',
+            key: 'id',
         }
     },
     ProductID:{

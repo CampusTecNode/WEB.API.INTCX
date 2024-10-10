@@ -12,6 +12,7 @@ const UserLikedProducts = require('./UserLikedProducts');
 const CartStatus = require('../../cartStatus/cartStatus');
 const ShoppingCart = require('../../shoppingCart/shoppingCart');
 const CartDetails = require('../../cartDetails/cartDetail');
+const OrderDetails = require('./orderDetails');
 
 require('../middlewares/updateMiddleware')(sequelize);
 
@@ -27,7 +28,6 @@ CartDetails.belongsTo(ShoppingCart, { foreignKey: 'CartID' });
 Products.hasMany(CartDetails, { foreignKey: 'ProductID' });
 CartDetails.belongsTo(Products, { foreignKey: 'ProductID' });
 
-
 Users.belongsToMany(Products, {
     through: UserLikedProducts,
     foreignKey: 'UserID', 
@@ -37,6 +37,25 @@ Products.belongsToMany(Users, {
   through: UserLikedProducts, 
   foreignKey: 'ProductID', 
 });
+
+Users.hasMany(Orders, { foreignKey: 'UserID' });
+Orders.belongsTo(Users, { foreignKey: 'UserID' });
+
+// Relación entre órdenes y estados de orden
+OrderStatus.hasMany(Orders, { foreignKey: 'StateID' });
+Orders.belongsTo(OrderStatus, { foreignKey: 'StateID' });
+
+// Relación entre órdenes y métodos de pago
+PaymentMethods.hasMany(Orders, { foreignKey: 'PaymentMethodID' });
+Orders.belongsTo(PaymentMethods, { foreignKey: 'PaymentMethodID' });
+
+Orders.belongsTo(ShoppingCart, { foreignKey: 'CartID' });
+ShoppingCart.hasMany(CartDetails, { foreignKey: 'CartID' });
+
+// Relación entre órdenes y detalles de la orden
+Orders.hasMany(OrderDetails, { foreignKey: 'OrderID' });
+OrderDetails.belongsTo(Orders, { foreignKey: 'OrderID' });
+
 
 module.exports = {
   sequelize,
@@ -52,4 +71,5 @@ module.exports = {
   CartStatus,
   ShoppingCart,
   CartDetails,
+  OrderDetails
 };

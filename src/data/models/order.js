@@ -11,9 +11,9 @@ const Orders = sequelize.define('Orders', {
     UserID:{
         type: DataTypes.INTEGER,
         allowNull: false,
-        references:{
+        references: {
             model: 'Users',
-            key: 'ID',
+            key: 'id',
         } 
     },
     Date:{
@@ -39,6 +39,14 @@ const Orders = sequelize.define('Orders', {
             model: 'PaymentMethods',
             key: 'ID',
         }
+    },
+    CartID:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+          model: 'ShoppingCart',
+          key: 'ID',
+      }
     },
     CreatedAt:{
         type: DataTypes.DATE,
@@ -70,7 +78,7 @@ const Orders = sequelize.define('Orders', {
     },
 },{
     tableName:'Orders',
-    timespan: false,
+    timestamps: false,
 });
 
 module.exports = Orders;
