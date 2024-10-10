@@ -13,6 +13,7 @@ const CartStatus = require('../../cartStatus/cartStatus');
 const ShoppingCart = require('../../shoppingCart/shoppingCart');
 const CartDetails = require('../../cartDetails/cartDetail');
 const OrderDetails = require('./orderDetails');
+const Notifications = require('../../notifications/notifications');
 
 require('../middlewares/updateMiddleware')(sequelize);
 
@@ -56,6 +57,9 @@ ShoppingCart.hasMany(CartDetails, { foreignKey: 'CartID' });
 Orders.hasMany(OrderDetails, { foreignKey: 'OrderID' });
 OrderDetails.belongsTo(Orders, { foreignKey: 'OrderID' });
 
+Users.hasMany(Notifications, { foreignKey: 'UserID' });
+Notifications.belongsTo(Users, { foreignKey: 'UserID' });
+
 
 module.exports = {
   sequelize,
@@ -71,5 +75,6 @@ module.exports = {
   CartStatus,
   ShoppingCart,
   CartDetails,
-  OrderDetails
+  OrderDetails,
+  Notifications
 };

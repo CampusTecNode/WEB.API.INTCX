@@ -45,7 +45,6 @@ const Get = async (req, res) => {
       };
     });
 
-
     return res.status(200).json(categoriesWithLikes);
   } catch (error) {
     console.error('Error fetching categories:', error);

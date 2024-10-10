@@ -19,6 +19,7 @@ const authRoutes = require('./src/auth/authRoutes');
 const likesRoutes = require('./src/likes/likesRoutes');
 const cartStatusRoutes = require('./src/cartStatus/cartStatusRoutes');
 const shoppingCart = require('./src/shoppingCart/shoppingCartRoutes');
+const notifications = require('./src/notifications/notificationsRoutes')
 // TODO: Use verifyRole middleware
 const { verifyToken } = require('./src/auth/authMiddleware');
 
@@ -46,5 +47,6 @@ app.use('/orderStatus', verifyToken, orderStatusRoutes);
 app.use('/likes', verifyToken, likesRoutes);
 app.use('/cartStatus', verifyToken, cartStatusRoutes);
 app.use('/shoppingCart', verifyToken, shoppingCart);
+app.use('/notifications', verifyToken, notifications);
 
 module.exports = app;

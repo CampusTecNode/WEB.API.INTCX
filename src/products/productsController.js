@@ -44,6 +44,7 @@ const { Products, UserLikedProducts } = require('../data/models/index');
         #swagger.description = 'Get Products by id' */
     try {
       const { id } = req.params;
+      const { userID } = req.body;
       const product = await Products.findByPk(id, {
         attributes: [
           'ID', 'SKU', 'Name', 'Description', 'Price', 'Stock', 'CategoryID', 'ImageURL', 
@@ -57,7 +58,19 @@ const { Products, UserLikedProducts } = require('../data/models/index');
         return res.status(404).json({ message: 'Product not found' });
       }
 
-      return res.json(product);
+      const likedProducts = await UserLikedProducts.findAll({
+        where: { UserID: userID },
+        attributes: ['ProductID'],
+      });
+  
+      const likedProductsIDs = likedProducts.map(product => product.ProductID);
+      
+      const productWithLikes = {
+          ...product.toJSON(),
+          IsLiked: likedProductsIDs.includes(product.ID),
+        };
+
+      return res.status(200).json(productWithLikes);
     } catch (error) {
       console.error('Error fetching product by ID:', error);
       return res.status(500).json({ message: 'Internal server error' });

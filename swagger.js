@@ -47,6 +47,10 @@ const doc = {
       name: 'ShoppingCart',
       description: 'Endpoints related to shopping cart management',
     },
+    {
+      name: 'Notifications',
+      description: 'Endpoints related to notifications managment',
+    },
 ],
   securityDefinitions: {
     apiKeyAuth:{
