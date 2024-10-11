@@ -1,7 +1,8 @@
 // imports
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
-const swaggerFile = require('./swagger-output.json'); // 
+const swaggerFile = require('./swagger-output.json'); 
+const cors = require('cors'); 
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -9,6 +10,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const app = express();
 
+app.use(cors());
 // Routes
 const categoriesRoutes = require('./src/categories/categoriesRoutes');
 const productsRoutes = require('./src/products/productsRoutes');
