@@ -1756,7 +1756,10 @@
     },
     "/spaces/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Spaces"
+        ],
+        "description": "Get all spaces",
         "responses": {
           "200": {
             "description": "OK"
@@ -1776,7 +1779,10 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Spaces"
+        ],
+        "description": "Create new space",
         "parameters": [
           {
             "name": "body",
@@ -1818,7 +1824,10 @@
     },
     "/spaces/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Spaces"
+        ],
+        "description": "Get space by ID",
         "parameters": [
           {
             "name": "id",
@@ -1846,7 +1855,10 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "Spaces"
+        ],
+        "description": "Update space",
         "parameters": [
           {
             "name": "id",
@@ -1895,7 +1907,10 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Spaces"
+        ],
+        "description": "Delete one space",
         "parameters": [
           {
             "name": "id",

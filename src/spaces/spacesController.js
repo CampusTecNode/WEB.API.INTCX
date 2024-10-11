@@ -2,9 +2,13 @@ const { Spaces } = require('../data/models');
 
 // Obtener todos los espacios
 const GetAll = async (req, res) => {
+    /*  
+    #swagger.tags = ['Spaces']  
+    #swagger.description = 'Get all spaces'  
+  */
   try {
     const spaces = await Spaces.findAll({
-      attributes: ['ID', 'Name', 'Description', 'Capacity', 'IsAvailable'],
+      attributes: ['ID', 'Name', 'Description', 'Capacity', 'Available'],
       where: { DeletedAt: null },
     });
     
@@ -21,10 +25,14 @@ const GetAll = async (req, res) => {
 
 // Obtener un espacio por ID
 const GetByID = async (req, res) => {
+     /*  
+    #swagger.tags = ['Spaces']  
+    #swagger.description = 'Get space by ID'  
+  */
   try {
     const { id } = req.params;
     const space = await Spaces.findByPk(id, {
-      attributes: ['ID', 'Name', 'Description', 'Capacity', 'IsAvailable'],
+      attributes: ['ID', 'Name', 'Description', 'Capacity', 'Available'],
       where: { DeletedAt: null },
     });
 
@@ -41,6 +49,10 @@ const GetByID = async (req, res) => {
 
 // Crear un nuevo espacio
 const Create = async (req, res) => {
+     /*  
+    #swagger.tags = ['Spaces']  
+    #swagger.description = 'Create new space'  
+  */
   try {
     const { Name, Description, Capacity, IsAvailable } = req.body;
     const newSpace = await Spaces.create({
@@ -59,6 +71,10 @@ const Create = async (req, res) => {
 
 // Actualizar un espacio existente
 const Update = async (req, res) => {
+     /*  
+    #swagger.tags = ['Spaces']  
+    #swagger.description = 'Update space'  
+  */
   try {
     const { id } = req.params;
     const { Name, Description, Capacity, IsAvailable } = req.body;
@@ -85,6 +101,10 @@ const Update = async (req, res) => {
 
 // Borrado lógico de un espacio
 const Delete = async (req, res) => {
+     /*  
+    #swagger.tags = ['Spaces']  
+    #swagger.description = 'Delete one space'  
+  */
   try {
     const { id } = req.params;
     const { deletedBy } = req.body;
