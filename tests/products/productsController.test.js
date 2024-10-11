@@ -3,7 +3,6 @@ const app = require('../../app'); // Importa la aplicación
 const {Products, Users} = require('../../src/data/models/index'); // Mock del modelo de productos
 
 jest.mock('../../src/data/models/index'); // Mock del modelo de productos
-jest.mock('../../src/data/models/index'); // Mock del modelo de usuarios
 
 let token; // Variable para almacenar el token
 
@@ -60,5 +59,40 @@ describe('Product Controller', () => {
 
     expect(response.statusCode).toBe(201);
     expect(response.body.name).toBe(newProduct.name);
+  });
+
+  it('should update an existing product', async () => {
+    const updatedProduct = {
+      Name: 'Notebook',
+      Price: 4.50, // Nuevo precio
+    };
+
+    Products.findByPk.mockResolvedValue({
+      save: jest.fn().mockResolvedValue(true),
+      ...updatedProduct,
+    });
+
+    const response = await request(app)
+      .put('/products/1')
+      .set('Authorization', `${token}`)
+      .send(updatedProduct);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.Price).toBe(4.50);
+  });
+
+  it('should soft delete a product', async () => {
+    Products.findByPk.mockResolvedValue({
+      save: jest.fn().mockResolvedValue(true),
+      DeletedAt: null
+    });
+
+    const response = await request(app)
+      .delete('/products/1')
+      .set('Authorization', `${token}`)
+      .send({ deletedBy: 'test-user' });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('Product deleted (soft delete)');
   });
 });

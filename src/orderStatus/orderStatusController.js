@@ -25,7 +25,10 @@ const GetByID = async (req, res) => {
 */
 
     try {
-        const orderStatus = await OrderStatus.findByPK(id, {
+
+        const { id } = req.params;
+
+        const orderStatus = await OrderStatus.findByPk(id, {
             attibutes: ['ID', 'Name', 'CreatedAt', 'reatedBy', 'UpdatedAt', 'UpdatedBy'],
             where: { DeletedAt: null },
         });
@@ -34,7 +37,7 @@ const GetByID = async (req, res) => {
             return res.status(404).json({ message: 'OrderStatus Not Found' });
         }
     
-        return res.json(orderStatus);
+        return res.status(200).json(orderStatus);
     } catch (error) {
         console.error(`error fetching the OrderStatus number: ${req.param.ID}`);
         return res.status(500).json({ message: 'Internal server error' });
@@ -50,7 +53,7 @@ const Create = async (req, res) => {
 
     try {
         const { Name } = req.body;
-        const newOrderStatus = OrderStatus.Create({Name});
+        const newOrderStatus = await OrderStatus.create({Name});
         return res.status(201).json(newOrderStatus);
     } catch (error){
         console.error('Error creating new OrderStatus:', error);
@@ -68,7 +71,7 @@ const Update = async (req, res) => {
         const { id } = req.param;
         const { Name } = req.body;
 
-        const orderStatus = OrderStatus.findByPk(id);
+        const orderStatus = await OrderStatus.findByPk(id);
         if (!orderStatus) {
             return res.status(400).json({ message: 'Order Status not found' });
         }

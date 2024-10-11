@@ -1,4 +1,4 @@
-const { CartStatus } = require('./cartStatus');
+const { CartStatus } = require('../data/models/index');
 
 const Get = async (req, res) => {
     /*  
@@ -10,7 +10,7 @@ const Get = async (req, res) => {
             attibutes: ['ID', 'Name', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
             where: { DeletedAt: null },
         });
-        return res.json(cartStatus);
+        return res.status(200).json(cartStatus);
     } catch (error) {
         console.error('Error fetching payment methods:', error);
         return res.status(500).json({ message: 'Internal server error' });
@@ -25,7 +25,7 @@ const GetByID = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const cartStatus = await CartStatus.findByPK(id, {
+        const cartStatus = await CartStatus.findByPk(id, {
             attibutes: ['ID', 'Name', 'CreatedAt', 'reatedBy', 'UpdatedAt', 'UpdatedBy'],
             where: { DeletedAt: null },
         });
@@ -49,7 +49,7 @@ const Create = async (req, res) => {
 */
     try {
         const { Name } = req.body;
-        const newCartStatus = CartStatus.Create({Name});
+        const newCartStatus = await CartStatus.create({Name});
         return res.status(201).json(newCartStatus);
     } catch (error){
         console.error('Error creating new CartStatus:', error);
@@ -63,10 +63,10 @@ const Update = async (req, res) => {
 #swagger.description = 'Update an existing cart status by its ID'  
 */
     try {
-        const { id } = req.param;
+        const { id } = req.params;
         const { Name } = req.body;
 
-        const cartStatus = CartStatus.findByPk(id);
+        const cartStatus = await CartStatus.findByPk(id);
 
         if (!cartStatus) {
             return res.status(400).json({ message: 'Cart Status not found' });

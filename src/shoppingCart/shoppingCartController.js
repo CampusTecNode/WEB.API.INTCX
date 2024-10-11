@@ -1,5 +1,4 @@
-const { ShoppingCart } = require('./shoppingCart');
-const { Users, CartStatus, Products, CartDetails } = require('../data/models/index');
+const { Users, CartStatus, Products, CartDetails, ShoppingCart } = require('../data/models/index');
 
 // Crear un carrito (si no existe) y agregar productos al carrito
 const AddToCart = async (req, res) => {

@@ -6,7 +6,6 @@ if (process.env.NODE_ENV !== 'production') {
 // Middleware para verificar el token JWT (Autenticación)
 const verifyToken = (req, res, next) => {
   const token = req.headers['authorization'];
-  console.log(token);
   if (!token) {
     return res.status(403).json({ message: 'No token provided' });
   }

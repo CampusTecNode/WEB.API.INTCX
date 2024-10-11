@@ -37,4 +37,23 @@ describe('Auth Controller', () => {
 
     expect(response.statusCode).toBe(401);
   });
+
+  it('should return 201 for succesfully register user', async () => {
+    Users.create.mockResolvedValue({
+      username: 'test',
+      email: 'testemail@test.com',
+      password: '$2a$10$EjXJuDdXG9NHKMvlQAv8WeHTDlG9nOPJDLcXnroKpE/nINk2NifTa', 
+    });
+
+    const response = await request(app)
+      .post('/auth/register')
+      .send({ username: 'test', email: 'testemail@test.com', password: '$2a$10$EjXJuDdXG9NHKMvlQAv8WeHTDlG9nOPJDLcXnroKpE/nINk2NifTa' });
+
+    console.log(response.body);
+
+    expect(response.statusCode).toBe(201);
+    expect(response.body.message).toBe('User registered successfully'); // Verifica que se haya devuelto un token
+  });
+
+
 });

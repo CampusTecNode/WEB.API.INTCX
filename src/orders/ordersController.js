@@ -1,4 +1,4 @@
-const { Orders, ShoppingCart, CartDetails, OrderDetails, Products, PaymentMethods  } = require('../data/models/index');
+const { Orders, ShoppingCart, CartDetails, OrderDetails, Products, PaymentMethods, CartStatus, OrderStatus  } = require('../data/models/index');
 
 
 const CreateOrderFromCart = async (req, res) => {
@@ -39,8 +39,8 @@ const CreateOrderFromCart = async (req, res) => {
     await OrderDetails.bulkCreate(orderDetails);
 
     // Cambiar el estado del carrito a "Procesado"
-    const processedState = await CartStates.findOne({ where: { Name: 'Procesado' } });
-    cart.CartStateID = processedState.ID;
+    const processedState = await CartStatus.findOne({ where: { Name: 'Procesado' } });
+    cart.CartStatusID = processedState.ID;
     await cart.save();
 
     return res.status(201).json(newOrder);
@@ -64,7 +64,7 @@ const Get = async (req, res) => {
             model: OrderDetails, 
             include: [{ model: Products, attributes: ['SKU','Name', 'Description', 'Price', 'ImageURL'] }] 
           },
-          { model: OrderStates, attributes: ['ID', 'Name'] },  // Incluir el estado de la orden
+          { model: OrderStatus, attributes: ['ID', 'Name'] },  // Incluir el estado de la orden
           { model: PaymentMethods, attributes: ['ID', 'Name'] }  // Incluir el método de pago
         ],
     });
@@ -91,7 +91,7 @@ const GetOrdersByUser = async (req, res) => {
           model: OrderDetails, 
           include: [{ model: Products, attributes: ['SKU', 'Name', 'Description', 'Price', 'ImageURL'] }] 
         },
-        { model: OrderStates, attributes: ['ID', 'Name'] },  // Incluir el estado de la orden
+        { model: OrderStatus, attributes: ['ID', 'Name'] },  // Incluir el estado de la orden
         { model: PaymentMethods, attributes: ['ID', 'Name'] }  // Incluir el método de pago
       ],
       attributes: ['ID', 'Date', 'Total', 'CreatedAt', 'UpdatedAt']

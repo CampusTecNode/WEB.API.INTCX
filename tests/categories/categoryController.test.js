@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../../app'); // Importa la aplicación
-const {Categories, Users } = require('../../src/data/models/index'); // Mock del modelo de productos
+const {Categories, Users, UserLikedProducts } = require('../../src/data/models/index'); // Mock del modelo de productos
 
 jest.mock('../../src/data/models/index'); // Mock del modelo de usuarios
 
@@ -73,6 +73,34 @@ describe('Category Controller', () => {
   //   expect(response.body[1].Products[0].IsLiked).toBe(false); // Novel Book no tiene like
   // });
 
+  it('should retrieve a category by ID', async () => {
+    // Mock de categoría por ID
+    Categories.findByPk.mockResolvedValue({
+      ID: 1,
+      Name: 'Stationery',
+      Description: 'Office supplies'
+    });
+
+    const response = await request(app)
+      .get('/categories/1')
+      .set('Authorization', `${token}`);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.ID).toBe(1);
+    expect(response.body.Name).toBe('Stationery');
+  });
+
+  it('should return 404 if category not found', async () => {
+    Categories.findByPk.mockResolvedValue(null);
+
+    const response = await request(app)
+      .get('/categories/999')
+      .set('Authorization', `${token}`);
+
+    expect(response.statusCode).toBe(404);
+    expect(response.body.message).toBe('Category not found');
+  });
+
   it('should create a new category', async () => {
     const newCategory = { name: 'Clothing', description: 'Clothes for everyone' };
 
@@ -85,5 +113,44 @@ describe('Category Controller', () => {
 
     expect(response.statusCode).toBe(201);
     expect(response.body.name).toBe(newCategory.name);
+  });
+
+  it('should update an existing category', async () => {
+    const categoryMock = {
+      ID: 1,
+      Name: 'Stationery',
+      save: jest.fn()
+    };
+    Categories.findByPk.mockResolvedValue(categoryMock);
+
+    const response = await request(app)
+      .put('/categories/1')
+      .set('Authorization', `${token}`)
+      .send({ Name: 'Updated Category' });
+
+    expect(response.statusCode).toBe(200);
+    expect(categoryMock.Name).toBe('Updated Category');
+    expect(categoryMock.save).toHaveBeenCalled();
+  });
+
+  it('should perform a soft delete on a category', async () => {
+    const categoryMock = {
+      ID: 1,
+      Name: 'Stationery',
+      DeletedAt: null,
+      DeletedBy: null,
+      save: jest.fn()
+    };
+    Categories.findByPk.mockResolvedValue(categoryMock);
+
+    const response = await request(app)
+      .delete('/categories/1')
+      .set('Authorization', `${token}`)
+      .send({ deletedBy: 'admin' });
+
+    expect(response.statusCode).toBe(200);
+    expect(categoryMock.DeletedAt).not.toBeNull(); // Se ha agregado fecha de borrado
+    expect(categoryMock.DeletedBy).toBe('admin');
+    expect(categoryMock.save).toHaveBeenCalled(); // Se ha llamado al método save
   });
 });

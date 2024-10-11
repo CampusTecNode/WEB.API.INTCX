@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "start": "node swagger.js && node server.js"
+    "start": "node swagger.js && node server.js",
+    "dev" : "node swagger.js && nodemon server.js"
   },
   "repository": {
     "type": "git",
