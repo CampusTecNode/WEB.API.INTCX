@@ -11,7 +11,7 @@ on:
 permissions:
   contents: read
   checks: write
-  pull-requests: write  
+  pull-requests: write
 
 jobs:
   build-and-test:
@@ -20,6 +20,7 @@ jobs:
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
       JWT_EXPIRATION: "6h"
       DB_PORT: 5432
       NODE_ENV: development
