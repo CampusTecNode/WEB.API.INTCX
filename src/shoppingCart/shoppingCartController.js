@@ -118,7 +118,7 @@ const DeleteCartItem = async (req, res) => {
 
     // Verificar si el carrito existe y está activo
     const cart = await ShoppingCart.findOne({
-      where: { ID: CartID, CartStateID: 1 } // Estado activo
+      where: { ID: CartID, CartStatusID: 1 } // Estado activo
     });
 
     if (!cart) {
