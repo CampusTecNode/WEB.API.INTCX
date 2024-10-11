@@ -26,6 +26,14 @@ const Users = sequelize.define('Users', {
     type: DataTypes.STRING,
     allowNull: true, 
   },
+  resetPasswordToken: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  resetPasswordExpires: {
+      type: DataTypes.DATE,
+      allowNull: true,
+  },
   phoneConfirmed: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
