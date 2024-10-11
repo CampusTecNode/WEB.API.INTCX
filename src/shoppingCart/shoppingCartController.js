@@ -24,14 +24,14 @@ const AddToCart = async (req, res) => {
 
     // Intentar encontrar un carrito activo del usuario
     let shoppingCart = await ShoppingCart.findOne({
-      where: { UserID, CartStateID: 1 } // Estado activo
+      where: { UserID, CartStatusID: 1 } // Estado activo
     });
 
     if (!shoppingCart) {
       // Si no existe un carrito activo, crear uno nuevo
       shoppingCart = await ShoppingCart.create({
         UserID,
-        CartStateID: 1, // Estado activo
+        CartStatusID: 1, // Estado activo
       });
     }
 
