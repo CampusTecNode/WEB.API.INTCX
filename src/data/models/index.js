@@ -26,6 +26,9 @@ Products.belongsTo(Categories, { foreignKey: 'CategoryID', as: 'Category' });
 ShoppingCart.hasMany(CartDetails, { foreignKey: 'CartID' });
 CartDetails.belongsTo(ShoppingCart, { foreignKey: 'CartID' });
 
+CartStatus.hasMany(ShoppingCart, { foreignKey: 'CartStatusID' });
+ShoppingCart.belongsTo(CartStatus, { foreignKey: 'CartStatusID' });
+
 Products.hasMany(CartDetails, { foreignKey: 'ProductID' });
 CartDetails.belongsTo(Products, { foreignKey: 'ProductID' });
 

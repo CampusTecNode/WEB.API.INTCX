@@ -73,7 +73,7 @@ const GetByUser = async (req, res) => {
 
     // Buscar el carrito activo del usuario
     const cart = await ShoppingCart.findOne({
-      where: { UserID: userID, CartStateID: 1, DeletedAt: null },  // 1 = Estado activo
+      where: { UserID: userID, CartStatusID: 1, DeletedAt: null },  // 1 = Estado activo
       include: [
         {
           model: CartDetails,
