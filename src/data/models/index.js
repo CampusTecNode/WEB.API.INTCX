@@ -14,6 +14,8 @@ const ShoppingCart = require('../../shoppingCart/shoppingCart');
 const CartDetails = require('../../cartDetails/cartDetail');
 const OrderDetails = require('./orderDetails');
 const Notifications = require('../../notifications/notifications');
+const Reservations = require('../../reservations/reservations');
+const Spaces = require('../../spaces/spaces');
 
 require('../middlewares/updateMiddleware')(sequelize);
 
@@ -63,6 +65,13 @@ OrderDetails.belongsTo(Orders, { foreignKey: 'OrderID' });
 Users.hasMany(Notifications, { foreignKey: 'UserID' });
 Notifications.belongsTo(Users, { foreignKey: 'UserID' });
 
+// Relación entre Usuarios y Reservas
+Users.hasMany(Reservations, { foreignKey: 'UserID' });
+Reservations.belongsTo(Users, { foreignKey: 'UserID' });
+
+// Relación entre Espacios y Reservas
+Spaces.hasMany(Reservations, { foreignKey: 'SpaceID' });
+Reservations.belongsTo(Spaces, { foreignKey: 'SpaceID' });
 
 module.exports = {
   sequelize,
@@ -79,5 +88,7 @@ module.exports = {
   ShoppingCart,
   CartDetails,
   OrderDetails,
-  Notifications
+  Notifications,
+  Reservations,
+  Spaces,
 };
