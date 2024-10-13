@@ -1,5 +1,5 @@
 // src/data/seeder.js
-const { Users, Roles, UserRoles, Products, Categories, OrderStatus, PaymentMethods, UserLikedProducts, ShoppingCart, CartDetails, Orders, OrderDetails, CartStatus } = require('../../src/data/models/index');
+const { Users, Roles, UserRoles, Products, Categories, OrderStatus, PaymentMethods, UserLikedProducts, ShoppingCart, CartDetails, Orders, OrderDetails, CartStatus, Spaces } = require('../../src/data/models/index');
 
 async function seedDatabase() {
     try {
@@ -595,6 +595,111 @@ async function seedDatabase() {
         { OrderID: 3, ProductID: 15, Count: 1, UnitPrice: 45.00 }, // Una mochila en la orden 3
         { OrderID: 4, ProductID: 8, Count: 4, UnitPrice: 6.00 }, // Cuatro marcadores en la orden 4
       ]);
+
+      await Spaces.bulkCreate([
+        {
+            Name: 'Mesa de PingPong 1',
+            Description: 'Mesa de ping pong cerca de la cafetería',
+            Capacity: 2,
+            Type: 'PingPong',
+            Location: 'Edificio A, Planta Baja',
+            Available: true,
+            CreatedBy: 'System',
+            UpdatedBy: 'System'
+        },
+        {
+          Name: 'Mesa de PingPong 2',
+          Description: 'Mesa de ping pong cerca de la cancha deportiva',
+          Capacity: 2,
+          Type: 'PingPong',
+          Location: 'Edificio Deportivo',
+          Available: true,
+          CreatedBy: 'System',
+          UpdatedBy: 'System'
+        },
+        {
+          Name: 'Mesa de PingPong 3',
+          Description: 'Mesa de ping pong cerca de la cancha deportiva',
+          Capacity: 2,
+          Type: 'PingPong',
+          Location: 'Edificio Deportivo',
+          Available: true,
+          CreatedBy: 'System',
+          UpdatedBy: 'System'
+        },
+        {
+          Name: 'Mesa de PingPong 4',
+          Description: 'Mesa de ping pong cerca de la cancha deportiva',
+          Capacity: 2,
+          Type: 'PingPong',
+          Location: 'Edificio Deportivo',
+          Available: true,
+          CreatedBy: 'System',
+          UpdatedBy: 'System'
+        },
+        {
+            Name: 'Cubículo de Estudio 1',
+            Description: 'Cubículo con capacidad para 4 personas, incluye proyector.',
+            Capacity: 4,
+            Type: 'Cubiculo',
+            Location: 'Biblioteca, Piso 1',
+            Available: true,
+            CreatedBy: 'System',
+            UpdatedBy: 'System'
+        },
+        {
+          Name: 'Cubículo de Estudio 2',
+          Description: 'Cubículo con capacidad para 6 personas.',
+          Capacity: 6,
+          Type: 'Cubiculo',
+          Location: 'Biblioteca, Piso 1',
+          Available: true,
+          CreatedBy: 'System',
+          UpdatedBy: 'System'
+        },
+        {
+          Name: 'Cubículo de Estudio 3',
+          Description: 'Cubículo con capacidad para 6 personas.',
+          Capacity: 6,
+          Type: 'Cubiculo',
+          Location: 'Biblioteca, Piso 1',
+          Available: true,
+          CreatedBy: 'System',
+          UpdatedBy: 'System'
+        },
+        {
+          Name: 'Cubículo de Estudio 4',
+          Description: 'Cubículo con capacidad para 6 personas.',
+          Capacity: 6,
+          Type: 'Cubiculo',
+          Location: 'Biblioteca, Piso 2',
+          Available: true,
+          CreatedBy: 'System',
+          UpdatedBy: 'System'
+        },
+        {
+            Name: 'Parcela de Emprendimiento 1',
+            Description: 'Espacio designado para mostrar y promocionar productos de emprendimiento estudiantil.',
+            Capacity: 10,
+            Type: 'Parcela',
+            Location: 'Plaza Central',
+            Available: true,
+            CreatedBy: 'System',
+            UpdatedBy: 'System'
+        },
+        {
+            Name: 'Parcela de Emprendimiento 2',
+            Description: 'Espacio en la entrada principal para emprendimientos estudiantiles',
+            Capacity: 15,
+            Type: 'Parcela',
+            Location: 'Entrada Principal',
+            Available: true,
+            CreatedBy: 'System',
+            UpdatedBy: 'System'
+        },
+       
+       
+    ]);
 
       console.log('Seeding completed successfully');
     } catch (error) {
