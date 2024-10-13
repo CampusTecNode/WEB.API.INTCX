@@ -92,9 +92,9 @@ describe('ShoppingCart Controller', () => {
     CartDetails.findAll.mockResolvedValue([]);
   
     const response = await request(app)
-      .delete('/shoppingCart/1')
+      .delete('/shoppingCart/1/1')
       .set('Authorization', `${token}`)
-      .send({ CartID: 1, ProductID: 1 });
+      .send();
   
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe('Product removed and cart marked as inactive');

@@ -1676,7 +1676,7 @@
         }
       }
     },
-    "/shoppingCart/{id}": {
+    "/shoppingCart/{cartID}/{productID}": {
       "delete": {
         "tags": [
           "ShoppingCart"
@@ -1684,7 +1684,13 @@
         "description": "Remove a product from the shopping cart, and mark the cart as inactive if it becomes empty",
         "parameters": [
           {
-            "name": "id",
+            "name": "cartID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "productID",
             "in": "path",
             "required": true,
             "type": "string"
@@ -1693,21 +1699,6 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "CartID": {
-                  "example": "any"
-                },
-                "ProductID": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
