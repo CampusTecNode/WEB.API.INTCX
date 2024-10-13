@@ -1,4 +1,5 @@
 const { Reservations, Spaces, Users } = require('../data/models/index');
+const ReservationsService = require('./reservationsService');
 const { Op } = require('sequelize');
 
 // Crear una nueva reservación
@@ -8,59 +9,18 @@ const CreateReservation = async (req, res) => {
     #swagger.description = 'Create a new reservation for a user if the space is not already reserved and the user does not already have a reservation of the same type'  
   */
   try {
-    const { UserID, SpaceID, StartTime, EndTime } = req.body;
+    const { UserID, SpaceID, StartDate, EndDate } = req.body;
 
-    // Verificar si el espacio existe
-    const space = await Spaces.findByPk(SpaceID);
-    if (!space) {
-      return res.status(404).json({ message: 'Space not found' });
-    }
+    const newReservation = await ReservationsService.createReservation(UserID, SpaceID, StartDate, EndDate);
 
-    // Verificar si el usuario ya tiene una reserva en el mismo espacio y tipo
-    const existingReservation = await Reservations.findOne({
-      where: {
-        UserID,
-        SpaceID,
-        EndTime: { [Op.gt]: new Date() },  // Verificar que no haya una reserva activa
-        DeletedAt: null,
-      },
-    });
+    return res.status(newReservation.StatusCode).json(newReservation);
 
-    if (existingReservation) {
-      return res.status(400).json({ message: 'User already has an active reservation for this space' });
-    }
-
-    // Verificar si el espacio está reservado en el rango de tiempo
-    const overlappingReservation = await Reservations.findOne({
-      where: {
-        SpaceID,
-        [Op.or]: [
-          { StartTime: { [Op.between]: [StartTime, EndTime] } },
-          { EndTime: { [Op.between]: [StartTime, EndTime] } },
-        ],
-        DeletedAt: null,
-      },
-    });
-
-    if (overlappingReservation) {
-      return res.status(400).json({ message: 'Space is already reserved during this time' });
-    }
-
-    // Crear la nueva reserva
-    const newReservation = await Reservations.create({
-      UserID,
-      SpaceID,
-      StartTime,
-      EndTime,
-      CreatedBy: 'System',
-    });
-
-    return res.status(201).json(newReservation);
   } catch (error) {
     console.error('Error creating reservation:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 // Cancelar las reservas activas de un usuario
 const CancelReservationByUser = async (req, res) => {
@@ -75,7 +35,7 @@ const CancelReservationByUser = async (req, res) => {
     const activeReservations = await Reservations.findAll({
       where: {
         UserID,
-        EndTime: { [Op.gt]: new Date() },  // Solo reservas activas
+        EndDate: { [Op.gt]: new Date() },  // Solo reservas activas
         DeletedAt: null,
       },
     });
@@ -118,7 +78,7 @@ const GetReservationsByUser = async (req, res) => {
           attributes: ['Name', 'Description', 'Location', 'Capacity'],
         },
       ],
-      order: [['StartTime', 'DESC']],
+      order: [['StartDate', 'DESC']],
     });
 
     if (!reservations.length) {

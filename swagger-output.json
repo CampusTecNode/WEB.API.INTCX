@@ -1799,7 +1799,7 @@
                 "Capacity": {
                   "example": "any"
                 },
-                "IsAvailable": {
+                "Available": {
                   "example": "any"
                 }
               }
@@ -1950,38 +1950,23 @@
         }
       }
     },
-    "/reservations/reservations": {
-      "post": {
+    "/spaces/availables/{type}": {
+      "get": {
         "tags": [
-          "Reservations"
+          "Spaces"
         ],
-        "description": "Create a new reservation for a user if the space is not already reserved and the user does not already have a reservation of the same type",
+        "description": "Get all available spaces by type",
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "UserID": {
-                  "example": "any"
-                },
-                "SpaceID": {
-                  "example": "any"
-                },
-                "StartTime": {
-                  "example": "any"
-                },
-                "EndTime": {
-                  "example": "any"
-                }
-              }
-            }
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
+          "200": {
+            "description": "OK"
           },
           "400": {
             "description": "Bad Request"
@@ -2001,7 +1986,49 @@
         }
       }
     },
-    "/reservations/reservations/cancel/{UserID}": {
+    "/reservations/": {
+      "post": {
+        "tags": [
+          "Reservations"
+        ],
+        "description": "Create a new reservation for a user if the space is not already reserved and the user does not already have a reservation of the same type",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "UserID": {
+                  "example": "any"
+                },
+                "SpaceID": {
+                  "example": "any"
+                },
+                "StartDate": {
+                  "example": "any"
+                },
+                "EndDate": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservations/cancel/{UserID}": {
       "delete": {
         "tags": [
           "Reservations"
@@ -2034,7 +2061,7 @@
         }
       }
     },
-    "/reservations/reservations/user/{UserID}": {
+    "/reservations/user/{UserID}": {
       "get": {
         "tags": [
           "Reservations"

@@ -23,16 +23,12 @@ const Reservations = sequelize.define('Reservations', {
             key: 'ID',
         }
     },
-    ReservationDate: {
+    StartDate: {
         type: DataTypes.DATE,
         allowNull: false,
     },
-    StartTime: {
-        type: DataTypes.TIME,
-        allowNull: false,
-    },
-    EndTime: {
-        type: DataTypes.TIME,
+    EndDate: {
+        type: DataTypes.DATE,
         allowNull: false,
     },
     CreatedAt: {

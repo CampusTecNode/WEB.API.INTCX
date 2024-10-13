@@ -10,9 +10,9 @@ async function initializeApp() {
     await sequelize.sync(); 
     console.log('Tablas creadas exitosamente.');
 
-    if (process.env.NODE_ENV === 'development') {
-      await seedDatabase();
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    //   await seedDatabase();
+    // }
     
     app.listen(port, () => {
         console.log(`Servidor escuchando en el puerto ${port}`);

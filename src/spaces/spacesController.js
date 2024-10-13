@@ -1,5 +1,7 @@
 const { Spaces } = require('../data/models');
 
+const validSpaceTypes = ['PingPong', 'Cubiculo', 'Parcela'];
+
 // Obtener todos los espacios
 const GetAll = async (req, res) => {
     /*  
@@ -47,6 +49,35 @@ const GetByID = async (req, res) => {
   }
 };
 
+const GetSpacesAvailableByType = async (req, res) => {
+    /*  
+    #swagger.tags = ['Spaces']  
+    #swagger.description = 'Get all available spaces by type'  
+  */
+  try {
+
+    const { type } = req.params;
+
+    if (!validSpaceTypes.includes(type)) {
+      return res.status(400).json({ message: 'Invalid space type' });
+    }
+
+    const spaces = await Spaces.findAll({
+      attributes: ['ID', 'Name', 'Description', 'Capacity', 'Location', 'Available'],
+      where: { Type: type, Available: true, DeletedAt: null },
+    });
+
+    if (!spaces.length) {
+      return res.status(404).json({ message: 'No spaces found' });
+    }
+
+    return res.status(200).json(spaces);
+  } catch (error) {
+    console.error('Error fetching spaces:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
 // Crear un nuevo espacio
 const Create = async (req, res) => {
      /*  
@@ -54,12 +85,12 @@ const Create = async (req, res) => {
     #swagger.description = 'Create new space'  
   */
   try {
-    const { Name, Description, Capacity, IsAvailable } = req.body;
+    const { Name, Description, Capacity, Available } = req.body;
     const newSpace = await Spaces.create({
       Name,
       Description,
       Capacity,
-      IsAvailable,
+      Available,
     });
 
     return res.status(201).json(newSpace);
@@ -129,6 +160,7 @@ const Delete = async (req, res) => {
 module.exports = {
   GetAll,
   GetByID,
+  GetSpacesAvailableByType,
   Create,
   Update,
   Delete,

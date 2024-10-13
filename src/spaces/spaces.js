@@ -10,6 +10,7 @@ const Spaces = sequelize.define('Spaces', {
     Name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
     },
     Description: {
         type: DataTypes.STRING,

@@ -10,6 +10,9 @@ router.get('/', spacesController.GetAll);
 // Obtener un espacio por ID
 router.get('/:id', spacesController.GetByID);
 
+// Obtener un espacio por ID
+router.get('/availables/:type', spacesController.GetSpacesAvailableByType);
+
 // Crear un nuevo espacio
 router.post('/', spacesController.Create);
 
