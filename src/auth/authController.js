@@ -58,7 +58,15 @@ const loginUser = async (req, res) => {
       { expiresIn: process.env.JWT_EXPIRATION }
     );
 
-    res.json({ token: token, userID: user.id, stripeid: 'cus_R0u5BxAeykbbZm' });
+    res.json({ token: token, 
+      userID: user.id, 
+      username: user.username,
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
+      phone: user.phone,
+      imageURL:  user.imageURL,
+      customerID: 'cus_R0u5BxAeykbbZm' });
   } catch (error) {
     res.status(500).json({ message: 'Error logging in', error: error.message });
   }

@@ -8,7 +8,7 @@ const Get = async (req, res) => {
     const { userID } = req.query;
 
     const categories = await Categories.findAll({
-      attributes: ['ID', 'Name', 'Description', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
+      attributes: ['ID', 'Name', 'Description', 'ImageURL', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
       include: [
         {
           model: Products,
@@ -58,7 +58,7 @@ const GetByID = async (req, res) => {
     try {
       const { id } = req.params;
       const category = await Categories.findByPk(id, {
-        attributes: ['ID', 'Name', 'Description', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
+        attributes: ['ID', 'Name', 'Description', 'ImageURL', 'CreatedAt', 'CreatedBy', 'UpdatedAt', 'UpdatedBy'],
         where: { DeletedAt: null },
       });
   
@@ -77,8 +77,8 @@ const Create = async (req, res) => {
   /* 	#swagger.tags = ['Categories']
         #swagger.description = 'Create one new Category' */
   try {
-    const { Name, Description } = req.body;
-    const newCategory = await Categories.create({ Name, Description });
+    const { Name, Description, ImageURL } = req.body;
+    const newCategory = await Categories.create({ Name, Description, ImageURL });
     return res.status(201).json(newCategory);
   } catch (error) {
     console.error('Error creating category:', error);
@@ -91,7 +91,7 @@ const Update = async (req, res) => {
         #swagger.description = 'Update one Category' */
     try {
       const { id } = req.params;
-      const { Name, Description } = req.body;
+      const { Name, Description, ImageURL } = req.body;
   
       const category = await Categories.findByPk(id);
       if (!category) {
@@ -100,6 +100,7 @@ const Update = async (req, res) => {
   
       category.Name = Name || category.Name;
       category.Description = Description || category.Description;
+      category.ImageURL = ImageURL || category.ImageURL;
       await category.save();
   
       return res.json(category);

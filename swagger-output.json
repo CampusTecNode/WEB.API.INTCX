@@ -389,6 +389,9 @@
                 },
                 "Description": {
                   "example": "any"
+                },
+                "ImageURL": {
+                  "example": "any"
                 }
               }
             }
@@ -464,6 +467,9 @@
                   "example": "any"
                 },
                 "Description": {
+                  "example": "any"
+                },
+                "ImageURL": {
                   "example": "any"
                 }
               }
