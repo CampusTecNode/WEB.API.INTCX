@@ -78,6 +78,7 @@ const GetByUser = async (req, res) => {
         {
           model: CartDetails,
           attributes: ['ID', 'Quantity', 'UnitPrice'],
+          where: { DeletedAt: null },
           include: [
             {
               model: Products,
