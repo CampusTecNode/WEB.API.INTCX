@@ -98,7 +98,7 @@ const sendResetEmail = async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hora
     await user.save();
 
-    const resetURL = `https://web-api-intcx.onrender.com?reset-password?token=${hashedToken}`;
+    const resetURL = `url https://web-api-intcx.onrender.com/reset-password/token=${resetToken}`;
 
     await sendPasswordResetEmail(user.email, resetURL);
     return res.status(200).json({ message: 'Password reset email sent successfully' });
