@@ -13,6 +13,14 @@ const Users = sequelize.define('Users', {
     allowNull: false,
     unique: true,
   },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  lastname: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -41,6 +49,10 @@ const Users = sequelize.define('Users', {
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  ImageURL: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   CreatedAt:{
     type: DataTypes.DATE,

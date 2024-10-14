@@ -16,6 +16,10 @@ const Categories = sequelize.define('Categories', {
     type: DataTypes.STRING,
     allowNull: true, 
   },
+  ImageURL: {
+    type: DataTypes.STRING,
+    allowNull: true, 
+  },
   CreatedAt:{
     type: DataTypes.DATE,
     allowNull: false,
