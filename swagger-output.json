@@ -160,6 +160,12 @@
                 "password": {
                   "example": "any"
                 },
+                "name": {
+                  "example": "any"
+                },
+                "lastname": {
+                  "example": "any"
+                },
                 "role": {
                   "example": "any"
                 }

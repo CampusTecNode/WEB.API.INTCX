@@ -97,7 +97,7 @@ async function seedDatabase() {
           Price: 5.00,
           Stock: 150,
           CategoryID: 1, // Stationery
-          ImageURL: 'ruta',
+          ImageURL: 'https://res.cloudinary.com/dkq98o790/image/upload/v1728694805/notebook_cb2dkl.jpg',
           Color: 'Blue',
           Brand: 'PaperMate',
           Weight: 0.5, // Kg

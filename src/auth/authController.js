@@ -13,7 +13,7 @@ const registerUser = async (req, res) => {
    /* 	#swagger.tags = ['Auth']
         #swagger.description = 'Endpoint to sign up a specific user' */
   try {
-    const { username, email, password, role } = req.body;
+    const { username, email, password, name, lastname, role } = req.body;
 
     if ((!username || !email) || !password) {
       return res.status(400).json({ message: 'Please fill all the required fields' });
@@ -21,6 +21,8 @@ const registerUser = async (req, res) => {
 
     const newUser = await Users.create({
       username,
+      name,
+      lastname,
       email,
       password,
     });
