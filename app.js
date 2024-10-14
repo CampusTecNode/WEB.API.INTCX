@@ -2,13 +2,20 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json'); 
+const bodyParser = require('body-parser');
 const cors = require('cors'); 
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
+
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+
 const app = express();
+
+app.use(bodyParser.json());
 
 app.use(cors());
 // Routes
@@ -22,6 +29,8 @@ const likesRoutes = require('./src/likes/likesRoutes');
 const cartStatusRoutes = require('./src/cartStatus/cartStatusRoutes');
 const shoppingCart = require('./src/shoppingCart/shoppingCartRoutes');
 const notifications = require('./src/notifications/notificationsRoutes')
+const spacesRoutes = require('./src/spaces/spacesRoutes');
+const reservationsRoutes = require('./src/reservations/reservationsRoutes');
 // TODO: Use verifyRole middleware
 const { verifyToken } = require('./src/auth/authMiddleware');
 
@@ -38,9 +47,46 @@ app.get('/', (req, res) => {
   );
 });
 
+app.post('/create-payment-intent', async (req, res) => {
+  const { amount, currency, customer } = req.body; // Aquí puedes recibir la cantidad y la moneda desde el frontend
+
+  try {
+    // Crear un PaymentIntent con el monto y la moneda
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount, // El monto debe estar en la unidad más pequeña de la moneda (ej. centavos)
+      currency: currency,
+      customer: customer,
+      payment_method_types: ['card'], // Métodos de pago aceptados
+    });
+
+    // Enviar el client secret al frontend para completar el pago
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
+
+app.post('/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) => {
+  const sig = req.headers['stripe-signature'];
+
+  try {
+    const event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    
+    if (event.type === 'payment_intent.succeeded') {
+      const paymentIntent = event.data.object;
+      console.log('Pago exitoso', paymentIntent.id);
+    }
+
+    res.json({ received: true });
+  } catch (err) {
+    res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+});
+
 app.use('/auth', authRoutes);
-
-
 app.use('/categories', verifyToken, categoriesRoutes);
 app.use('/products', verifyToken, productsRoutes);
 app.use('/paymentMethods', verifyToken, paymentMethodsRoutes);
@@ -50,5 +96,11 @@ app.use('/likes', verifyToken, likesRoutes);
 app.use('/cartStatus', verifyToken, cartStatusRoutes);
 app.use('/shoppingCart', verifyToken, shoppingCart);
 app.use('/notifications', verifyToken, notifications);
+app.use('/spaces', verifyToken, spacesRoutes);
+app.use('/reservations', verifyToken, reservationsRoutes);
+
+
+
+  
 
 module.exports = app;

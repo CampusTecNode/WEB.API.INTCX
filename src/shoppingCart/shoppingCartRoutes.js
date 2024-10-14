@@ -5,6 +5,6 @@ const { verifyToken } = require('../auth/authMiddleware');
 
 router.post('/', verifyToken, shoppingCartController.AddToCart);
 router.get('/user/:userID', verifyToken, shoppingCartController.GetByUser);
-router.delete('/:id', verifyToken, shoppingCartController.DeleteCartItem);
+router.delete('/:cartID/:productID', verifyToken, shoppingCartController.DeleteCartItem);
 
 module.exports = router;

@@ -51,6 +51,14 @@ const doc = {
       name: 'Notifications',
       description: 'Endpoints related to notifications managment',
     },
+    {
+      name: 'Spaces',
+      description: 'Endpoints related to spaces management',
+    },
+    {
+      name: 'Reservations',
+      description: 'Endpoints related to reservations management',
+    }
 ],
   securityDefinitions: {
     apiKeyAuth:{
