@@ -52,11 +52,11 @@ async function seedDatabase() {
           name: 'Bill',
           lastname: 'Perez',
           email: '1114226@est.intec.edu.do',
-          password: 'https://res.cloudinary.com/dkq98o790/image/upload/v1728790632/ass_fnnttp.png',
+          password: '$2a$10$EjXJuDdXG9NHKMvlQAv8WeHTDlG9nOPJDLcXnroKpE/nINk2NifTa',
           emailConfirmed: true,
           phone: '18298905382',
           phoneConfirmed: false,
-          ImageURL: 'https://example.com/images/jane_doe.jpg',
+          ImageURL: 'https://res.cloudinary.com/dkq98o790/image/upload/v1728790632/ass_fnnttp.png',
           CreatedBy: 'System',
         },
         {
