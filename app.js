@@ -32,7 +32,7 @@ const notifications = require('./src/notifications/notificationsRoutes')
 const spacesRoutes = require('./src/spaces/spacesRoutes');
 const reservationsRoutes = require('./src/reservations/reservationsRoutes');
 // TODO: Use verifyRole middleware
-const { verifyToken } = require('./src/auth/authMiddleware');
+const { verifyToken, verifyRole } = require('./src/auth/authMiddleware');
 
 
 app.use(express.json());
@@ -87,20 +87,16 @@ app.post('/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) =>
 });
 
 app.use('/auth', authRoutes);
-app.use('/categories', verifyToken, categoriesRoutes);
-app.use('/products', verifyToken, productsRoutes);
-app.use('/paymentMethods', verifyToken, paymentMethodsRoutes);
-app.use('/orders', verifyToken, ordersRoutes);
-app.use('/orderStatus', verifyToken, orderStatusRoutes);
-app.use('/likes', verifyToken, likesRoutes);
-app.use('/cartStatus', verifyToken, cartStatusRoutes);
-app.use('/shoppingCart', verifyToken, shoppingCart);
-app.use('/notifications', verifyToken, notifications);
-app.use('/spaces', verifyToken, spacesRoutes);
-app.use('/reservations', verifyToken, reservationsRoutes);
-
-
-
-  
+app.use('/categories', verifyToken, verifyRole('admin'), categoriesRoutes);
+app.use('/products', verifyToken, verifyRole('admin'), productsRoutes);
+app.use('/paymentMethods', verifyToken, verifyRole('admin'), paymentMethodsRoutes);
+app.use('/orders', verifyToken, verifyRole('admin'), ordersRoutes);
+app.use('/orderStatus', verifyToken, verifyRole('admin'), orderStatusRoutes);
+app.use('/likes', verifyToken, verifyRole('student'), likesRoutes);
+app.use('/cartStatus', verifyToken, verifyRole('Admin'), cartStatusRoutes);
+app.use('/shoppingCart', verifyToken, verifyRole('Admin'), shoppingCart);
+app.use('/notifications', verifyToken, verifyRole('Admin'), notifications);
+app.use('/spaces', verifyToken, verifyRole('Admin'), spacesRoutes);
+app.use('/reservations', verifyToken, verifyRole('Admin'), reservationsRoutes);
 
 module.exports = app;
