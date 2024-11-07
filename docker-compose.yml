@@ -1,0 +1,20 @@
+version: "3.9"
+services: 
+   intcx-api:
+    build: . 
+    ports: 
+      - "3010:3000"
+    links:
+      - intcx-bd
+   intcx-bd:
+    image: postgres
+    ports:
+      - "8080:5432"
+    environment:
+      - POSTGRES_PASSWORD=P@ssw0rd
+      - POSTGRES_DB=INTEConnect
+    volumes:
+      - postgres-data:/var/lib/pgsql/data
+
+volumes:
+  postgres-data:

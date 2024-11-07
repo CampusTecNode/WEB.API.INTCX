@@ -6,17 +6,13 @@ if (process.env.NODE_ENV !== 'production') {
 class Connection {
     constructor() {
         if (!this.instance) {
-            this._sequelize =  new Sequelize(process.env.DATABASE_URL, {
-                dialect: 'postgres',
-                dialectOptions: {
-                    ssl: {
-                        require: true,
-                        rejectUnauthorized: false,
-                },
-            },
-            logging: process.env.NODE_ENV === 'development' ? console.log : false,
-        });
-        Connection.instance = this;
+            this._sequelize =  new Sequelize(process.env.DATABASE, process.env.DB_USERNAME, process.env.DB_USER_PASSWORD, {
+                host: process.env.DB_HOST,
+                dialect: process.env.DB_DIALECT,
+                port: process.env.DB_PORT,
+                logging: process.env.NODE_ENV === 'development' ? console.log : false,
+            });
+            Connection.instance = this;
         }
         return Connection.instance;
     }
@@ -25,7 +21,6 @@ class Connection {
         return this._sequelize;
     }
 }
-
 
 const instance = new Connection();
 Object.freeze(instance); // Evita modificaciones a la instancia
